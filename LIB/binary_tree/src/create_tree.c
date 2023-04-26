@@ -26,8 +26,10 @@ tree_t *add_node(tree_t *left, tree_t *right, char *command)
     tree_t *tree = create_node(command);
 
     if (tree) {
-        if (left && right) {
+        if (left) {
             tree->left_tree = left;
+        }
+        if (right) {
             tree->right_tree = right;
         }
     }

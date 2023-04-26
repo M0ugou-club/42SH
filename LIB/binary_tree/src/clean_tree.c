@@ -17,6 +17,5 @@ void clean_tree(tree_t *tree)
         clean_tree(tree->left_tree);
     if (tree->right_tree)
         clean_tree(tree->right_tree);
-
     free(tree);
 }

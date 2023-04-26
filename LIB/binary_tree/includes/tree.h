@@ -5,7 +5,7 @@
 ** tree.h
 */
 #ifndef TREE_H_
-	#define TREE_H_
+    #define TREE_H_
 
 typedef struct tree_s {
     char *command;
