@@ -9,21 +9,21 @@
 #include <stdlib.h>
 #include "tree.h"
 
-tree_t *create_node(char *command)
+tree_t *create_node(void *component)
 {
     tree_t *tree = malloc(sizeof(tree_t));
 
     if (tree) {
-        tree->command = command;
+        tree->component = component;
         tree->left_tree = NULL;
         tree->right_tree = NULL;
     }
     return (tree);
 }
 
-tree_t *add_node(tree_t *left, tree_t *right, char *command)
+tree_t *add_node(tree_t *left, tree_t *right, void *component)
 {
-    tree_t *tree = create_node(command);
+    tree_t *tree = create_node(component);
 
     if (tree) {
         if (left) {
