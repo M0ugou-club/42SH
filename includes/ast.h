@@ -8,19 +8,30 @@
 #ifndef AST_H_
     #define AST_H_
 
-    typedef struct ast_s ast_t;
-    typedef struct env_s env_t;
+    #include "env.h"
 
-    struct ast_s {
-        void (*action) ()
-        char *command;
-        ast_t *left;
-        ast_t *right;
+    typedef struct ast_s {
+        void *component;
+        struct ast_s *left;
+        struct ast_s *right;
     } ast_t;
 
-    struct env_s {
-        char *env_line;
-        env_t *next;
-    } env_t;
+    typedef enum data_type_e {
+        SEMI_COL,
+        AND,
+        OR,
+        PIPE,
+        DOUBLE_IN,
+        SIMPLE_IN,
+        DOUBLE_OUT,
+        SIMPLE_OUT,
+        COMMAND
+    } data_type_t;
+
+    typedef struct object_s {
+        data_type_t type;
+        void (*action) (env_t *env, ast_t *ast, int exec_read, int exec_write);
+        void *data;
+    } object_t;
 
 #endif /* !AST_H_ */
