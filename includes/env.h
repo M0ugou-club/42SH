@@ -13,4 +13,7 @@
         struct env_s *next;
     } env_t;
 
+char **get_env_array(env_t *env);
+env_t *get_env_list(char **env);
+
 #endif /* !ENV_H_ */
