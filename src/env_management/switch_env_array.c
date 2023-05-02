@@ -9,7 +9,7 @@
 #include <string.h>
 #include "env.h"
 
-int get_list_len(env_t *env)
+static int get_list_len(env_t *env)
 {
     int len = 0;
     env_t *tmp = env;
@@ -21,7 +21,7 @@ int get_list_len(env_t *env)
     return (len);
 }
 
-char *copy_line(char *copy)
+static char *copy_line(char const *copy)
 {
     char *line = NULL;
 
