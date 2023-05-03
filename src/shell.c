@@ -39,6 +39,6 @@ int main(int ac, char **av, char *env[])
 {
     int return_value = 0;
 
-    return_value = run_sh();
+    return_value = run_sh(env);
     return (return_value);
 }
