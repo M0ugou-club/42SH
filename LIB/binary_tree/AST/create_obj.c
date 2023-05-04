@@ -9,7 +9,8 @@
 #include "ast.h"
 #include "tree.h"
 
-tree_t *create_obj(void (*action) (env_t *env, ast_t *ast, int exec_read, int exec_write), data_type_t enum)
+tree_t *create_obj(void (*action) (env_t *env, ast_t *ast,
+        int exec_read, int exec_write), data_type_t enum)
 {
     obj_t *obj = NULL;
     tree_t *node = NULL;
