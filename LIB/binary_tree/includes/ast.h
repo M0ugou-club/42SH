@@ -10,12 +10,6 @@
 
     #include "env.h"
 
-    typedef struct ast_s {
-        void *component;
-        struct ast_s *left;
-        struct ast_s *right;
-    } ast_t;
-
     typedef enum data_type_e {
         SEMI_COL,
         AND,

@@ -7,7 +7,8 @@
 
 SRC	=	src/create_tree.c \
 		src/print_tree.c \
-		src/clean_tree.c
+		src/clean_tree.c \
+		AST/create_obj.c
 
 OBJ = $(SRC:.c=.o)
 
