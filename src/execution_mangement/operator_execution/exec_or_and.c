@@ -26,6 +26,9 @@ int exec_or(env_t *env, ast_t *ast, int exec_read, int exec_write)
         run_ast(ast->left, env, exec_read, exec_write);
         exit(0);
     }
+    free_ast(ast->left);
+    free_ast(ast->right);
+    return (0);
 }
 
 int exec_and(env_t *env, ast_t *ast, int exec_read, int exec_write)
@@ -45,4 +48,7 @@ int exec_and(env_t *env, ast_t *ast, int exec_read, int exec_write)
         run_ast(ast->left, env, exec_read, exec_write);
         exit(0);
     }
+    free_ast(ast->left);
+    free_ast(ast->right);
+    return (0);
 }
