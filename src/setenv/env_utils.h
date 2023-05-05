@@ -18,4 +18,7 @@
 
     void add_line_in_env(const char *new_line, env_t *env);
 
+    void remove_line_in_env(const char *var, env_t *env);
+
+
 #endif /* !ENV_UTILS_H_ */
