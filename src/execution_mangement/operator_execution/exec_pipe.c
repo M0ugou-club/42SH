@@ -17,8 +17,7 @@ int exec_pipe(env_t *env, ast_t *ast, int exec_read, int exec_write)
 
     if (pipe(pfd) < 0)
         return (-1);
-    pid = fork();
-    if (pid == -1)
+    if ((pid = fork()) == -1)
         return (-1);
     dup2(exec_read, STDIN_FILENO);
     if (pid == 0) {
@@ -29,5 +28,7 @@ int exec_pipe(env_t *env, ast_t *ast, int exec_read, int exec_write)
         run_ast(ast->left, env, exec_read, pfd[1]);
         exit(0);
     }
+    free_ast(ast->right);
+    free_ast(ast->left);
     return (wstatus);
 }
