@@ -16,7 +16,7 @@ env_t *find_var_in_env(env_t *env, const char *var)
     env_t *tmp = NULL;
     size_t var_len = 0;
 
-    if (env = NULL || var == NULL) {
+    if (env == NULL || var == NULL) {
         return NULL;
     }
     var_len = strlen(var);
@@ -28,20 +28,6 @@ env_t *find_var_in_env(env_t *env, const char *var)
         }
     }
     return NULL;
-}
-
-int get_tab_len(char **tab)
-{
-    int len = 0;
-
-    if (tab == NULL) {
-        return -1;
-    } else {
-        while (tab[len] != NULL) {
-            len++;
-        }
-    }
-    return len;
 }
 
 char *create_new_line(char *var, char *value)
@@ -63,7 +49,7 @@ void add_line_in_env(const char *new_line, env_t *env)
 {
     env_t *tmp = NULL;
 
-    if (env = NULL || new_line == NULL) {
+    if (env == NULL || new_line == NULL) {
         return;
     } else {
         tmp = env;
@@ -81,25 +67,32 @@ void add_line_in_env(const char *new_line, env_t *env)
     tmp->next->env_line = new_line;
 }
 
+static void free_line(env_t *to_free)
+{
+    free(to_free->env_line);
+    free(to_free);
+}
+
 void remove_line_in_env(const char *var, env_t *env)
 {
     env_t *tmp = NULL;
-    size_t var_len = 0;
+    env_t *free_tmp = NULL;
 
-    if (var == NULL || env ==NULL)
+    if (var == NULL || env == NULL)
         return;
-    var_len = strlen(var);
     tmp = env;
-    if (strncmp(env->env_line, var, var_len) == 0) {
+    if (strncmp(env->env_line, var, strlen(var)) == 0) {
         env = env->next;
-        free(tmp->env_line);
-        free(tmp);
+        free_line(tmp);
     }
     while (tmp->next != NULL) {
-        if (tmp->next != NULL && strncmp(tmp->next->env_line, var, var_len) == 0)
+        if (tmp->next != NULL &&
+            strncmp(tmp->next->env_line, var, strlen(var)) == 0)
+            free_tmp = tmp->next;
             tmp->next = tmp->next->next;
+            free_line(free_tmp);
         tmp = tmp->next;
     }
-    if (strncmp(tmp->env_line, var, var_len) == 0)
-        tmp = NULL;
+    if (strncmp(tmp->env_line, var, strlen(var)) == 0)
+        free_line(tmp);
 }

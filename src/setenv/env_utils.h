@@ -20,5 +20,6 @@
 
     void remove_line_in_env(const char *var, env_t *env);
 
+    int get_tab_len(char **tab);
 
 #endif /* !ENV_UTILS_H_ */

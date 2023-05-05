@@ -43,6 +43,7 @@ void setenv(env_t *env, char **command_array)
     if (tmp == NULL) {
         add_line_in_env(line, env);
     } else {
+        free(tmp->env_line);
         tmp->env_line = line;
     }
 }
