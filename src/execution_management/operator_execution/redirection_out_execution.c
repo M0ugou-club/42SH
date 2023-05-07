@@ -7,7 +7,7 @@
 
 #include <unistd.h>
 #include <fcntl.h>
-#include <stddef.h>
+#include <stdlib.h>
 #include "ast.h"
 #include "env.h"
 
@@ -23,21 +23,22 @@ static int get_out_file_fd(char *file, int clear)
     return (fd);
 }
 
-static int exec_out(ast_t *ast, int file_fd, char *file_name)
+static int exec_out(tree_t *ast, int file_fd, char *file_name, env_t *env)
 {
     dup2(file_fd, STDOUT_FILENO);
-    run_ast(ast->left);
+    run_ast(ast->left_tree, env);
     dup2(STDOUT_FILENO, file_fd);
     free(file_name);
     close(file_fd);
-    free_ast(ast->left);
-    free_ast(ast->right);
+    clean_ast(ast->left_tree);
+    clean_ast(ast->right_tree);
+    return (0);
 }
 
-int exec_double_out(env_t *env, ast_t *ast, int exec_read, int exec_write)
+int exec_double_out(env_t *env, tree_t *ast)
 {
     int file_fd = 0;
-    object_t *obj_right = ast->right->component;
+    object_t *obj_right = ast->right_tree->component;
     char *file_name = NULL;
 
     file_name = strclear(obj_right->data);
@@ -48,14 +49,14 @@ int exec_double_out(env_t *env, ast_t *ast, int exec_read, int exec_write)
         free(file_name);
         return (1);
     }
-    exec_out(ast, file_fd, file_name);
+    exec_out(ast, file_fd, file_name, env);
     return (0);
 }
 
-int exec_simple_out(env_t *env, ast_t *ast, int exec_read, int exec_write)
+int exec_simple_out(env_t *env, tree_t *ast)
 {
     int file_fd = 0;
-    object_t *obj_right = ast->right->component;
+    object_t *obj_right = ast->right_tree->component;
     char *file_name = NULL;
 
     file_name = strclear(obj_right->data);
@@ -66,6 +67,6 @@ int exec_simple_out(env_t *env, ast_t *ast, int exec_read, int exec_write)
         free(file_name);
         return (1);
     }
-    exec_out(ast, file_fd, file_name);
+    exec_out(ast, file_fd, file_name, env);
     return (0);
 }

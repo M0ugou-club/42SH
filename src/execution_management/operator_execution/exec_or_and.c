@@ -6,10 +6,12 @@
 */
 
 #include <sys/wait.h>
+#include <stdlib.h>
+#include <unistd.h>
 #include "ast.h"
 #include "env.h"
 
-int exec_or(env_t *env, ast_t *ast, int exec_read, int exec_write)
+int exec_or(env_t *env, tree_t *ast)
 {
     int pid = 0;
     int wstatus = 0;
@@ -17,21 +19,21 @@ int exec_or(env_t *env, ast_t *ast, int exec_read, int exec_write)
     pid = fork();
     if (pid == -1)
         return (-1);
-    if (pid = 0) {
+    if (pid == 0) {
         waitpid(pid, &wstatus, 0);
         if (!(WIFEXITED(wstatus) && WEXITSTATUS(wstatus) == 0)) {
-            run_ast(ast->right, env, exec_read, exec_write);
+            run_ast(ast->right_tree, env);
         }
     } else {
-        run_ast(ast->left, env, exec_read, exec_write);
+        run_ast(ast->left_tree, env);
         exit(0);
     }
-    free_ast(ast->left);
-    free_ast(ast->right);
+    clean_ast(ast->left_tree);
+    clean_ast(ast->right_tree);
     return (0);
 }
 
-int exec_and(env_t *env, ast_t *ast, int exec_read, int exec_write)
+int exec_and(env_t *env, tree_t *ast)
 {
     int pid = 0;
     int wstatus = 0;
@@ -39,16 +41,16 @@ int exec_and(env_t *env, ast_t *ast, int exec_read, int exec_write)
     pid = fork();
     if (pid == -1)
         return (-1);
-    if (pid = 0) {
+    if (pid == 0) {
         waitpid(pid, &wstatus, 0);
         if ((WIFEXITED(wstatus) && WEXITSTATUS(wstatus) == 0)) {
-            run_ast(ast->right, env, exec_read, exec_write);
+            run_ast(ast->right_tree, env);
         }
     } else {
-        run_ast(ast->left, env, exec_read, exec_write);
+        run_ast(ast->left_tree, env);
         exit(0);
     }
-    free_ast(ast->left);
-    free_ast(ast->right);
+    clean_ast(ast->left_tree);
+    clean_ast(ast->right_tree);
     return (0);
 }

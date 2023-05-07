@@ -7,14 +7,15 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
+#include "sh.h"
 #include "ast.h"
 #include "builtin.h"
 #include "env.h"
-#include "unistd.h"
 
 int execution(char **command_array, char **my_env)
 {
-    if (error_exec(command_array) == 1) {
+    if (error_exec() == 1) {
         exit(1);
     }
     if (execve(command_array[COMMAND_INDEX], command_array, my_env) == -1) {
@@ -31,7 +32,7 @@ int get_function(char **path_array, char **command_array)
         new_command = malloc(sizeof(char) * (strlen(path_array[i]) +
             strlen(command_array[COMMAND_INDEX]) + 1));
         if (new_command == NULL)
-            return (NULL);
+            return (-1);
         strcpy(new_command, path_array[i]);
         strcat(new_command, command_array[COMMAND_INDEX]);
         if (access(new_command, 0) == 0) {
@@ -44,7 +45,7 @@ int get_function(char **path_array, char **command_array)
     return (0);
 }
 
-char *get_path_array(env_t *env)
+char **get_path_array(env_t *env)
 {
     env_t *tmp = env;
     char **path_array = NULL;
@@ -58,12 +59,7 @@ char *get_path_array(env_t *env)
     return (path_array);
 }
 
-int get_redirect(int exec_write)
-{
-    return (0);
-}
-
-int exec_intern(env_t *env, char **command_array, int exec_write)
+int exec_intern(env_t *env, char **command_array)
 {
     return (0);
 }
