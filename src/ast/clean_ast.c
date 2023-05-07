@@ -9,10 +9,10 @@
 #include "tree.h"
 #include "ast.h"
 
-static void free_obj(objet_t *obj)
+static void free_obj(object_t *obj)
 {
     if (obj->data)
-        free(data);
+        free(obj->data);
 }
 
 void clean_ast(tree_t *tree)
