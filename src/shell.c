@@ -7,15 +7,20 @@
 
 #include <stdio.h>
 #include <stddef.h>
+#include "ast.h"
+#include "tree.h"
 #include "env.h"
+#include "utils.h"
 
 int loop_sh(env_t *env, char *line)
 {
+    tree_t *ast = NULL;
+
     line = strclean(line);
-    bonus();
-    parser();
-    run_ast();
-    free_ast();
+    /*bonus();*/
+    parser(line);
+    run_ast(ast, env);
+    clean_ast(ast);
 }
 
 int run_sh(char *env[])
@@ -30,6 +35,7 @@ int run_sh(char *env[])
         return (-1);
     }
     while (getline(&line, &size, stdin) != EOF) {
+        replace_char(line, '\n', '\0');
         return_value = loop_sh(my_env, line);
     }
     return (return_value);
