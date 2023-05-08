@@ -23,7 +23,8 @@ int get_next_word_index(char *line)
     return (i);
 }
 
-char *get_str_from_part(char *line, int middle_index, int index_to_skip)
+char *get_str_from_part(char *line, int middle_index, int index_to_skip,
+    char *operator)
 {
     char *str = NULL;
 
@@ -36,6 +37,6 @@ char *get_str_from_part(char *line, int middle_index, int index_to_skip)
         strncpy(str, line, middle_index - 1);
         str[middle_index] = ' ';
     }
-    strcat(str, &line[middle_index + index_to_skip + 1]);
+    strcat(str, &line[middle_index + index_to_skip + strlen(operator)]);
     return (str);
 }
