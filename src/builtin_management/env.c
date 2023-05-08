@@ -20,7 +20,7 @@ int env(env_t *env)
     for (; tmp->next; tmp = tmp->next) {
         if (tmp->env_line) {
             write(1, tmp->line, strlen(tmp->line));
-            write(1, '\n', 1);
+            write(1, "\n", 1);
         }
     }
     return 0;
