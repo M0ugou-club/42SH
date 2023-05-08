@@ -17,11 +17,16 @@
 
 static int exec_in(tree_t *ast, int fd, env_t *env)
 {
-    dup2(fd, STDOUT_FILENO);
+    int save_in = 0;
+
+    save_in = dup(STDIN_FILENO);
+    dup2(fd, STDIN_FILENO);
     run_ast(ast->left_tree, env);
-    dup2(STDIN_FILENO, fd);
+    dup2(save_in, STDIN_FILENO);
     clean_ast(ast->left_tree);
+    ast->left_tree = NULL;
     clean_ast(ast->right_tree);
+    ast->right_tree = NULL;
     return (0);
 }
 
@@ -31,15 +36,19 @@ static int loop_double_in(char *stop_str, int pfd[2])
     char *line = NULL;
     size_t size = 0;
 
-    while ((getline(&line, &size, stdin) != EOF) && end == false) {
+    write(1, "> ", 2);
+    while (end == false && (getline(&line, &size, stdin) != EOF)) {
         line = replace_char(line, '\n', '\0');
         if (strcmp(stop_str, line) == 0) {
             end = true;
         } else {
             write(pfd[1], line, strlen(line));
+            write(pfd[1], "\n", 1);
+            write(1, "> ", 2);
         }
     }
     free(line);
+    return (0);
 }
 
 int exec_double_in(env_t *env, tree_t *ast)
@@ -50,11 +59,11 @@ int exec_double_in(env_t *env, tree_t *ast)
 
     if (pipe(pfd) == -1)
         return (-1);
-    stop_str = strclear(obj_right->data);
+    stop_str = str_clear(obj_right->data);
     loop_double_in(stop_str, pfd);
+    close(pfd[1]);
     exec_in(ast, pfd[0], env);
     free(stop_str);
-    close(pfd[1]);
     close(pfd[0]);
     return (0);
 }
@@ -65,7 +74,7 @@ int exec_simple_in(env_t *env, tree_t *ast)
     char *file_name = NULL;
     int file_fd = 0;
 
-    file_name = strclear(obj_right->data);
+    file_name = str_clear(obj_right->data);
     if (file_name == NULL) {
         file_fd = open(file_name, O_RDONLY);
     }
