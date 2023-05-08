@@ -16,10 +16,10 @@ static const operator_t operator[] = {{";", NULL, SEMI_COL},
 {"||", &exec_or, OR},
 {"&&", &exec_and, AND},
 {"|", &exec_pipe, PIPE},
-{">", &exec_simple_out, SIMPLE_OUT},
-{">>", &exec_double_out, DOUBLE_OUT},
-{"<", &exec_simple_in, SIMPLE_IN},
 {"<<", &exec_double_in, DOUBLE_IN},
+{"<", &exec_simple_in, SIMPLE_IN},
+{">>", &exec_double_out, DOUBLE_OUT},
+{">", &exec_simple_out, SIMPLE_OUT},
 {"command", &exec_command, COMMAND},
 {NULL, NULL, -1}};
 
@@ -41,9 +41,9 @@ static tree_t *get_redirection(char *line, operator_t operator, int j)
     tree_t *tree = NULL;
 
     if (strncmp(&line[j], operator.op, strlen(operator.op)) == 0) {
-        index_file = get_next_word_index(&line[j + 1]);
-        line_right = strndup(&line[j + 1], index_file);
-        line_left = get_str_from_part(line, j, index_file, line_left);
+        index_file = get_next_word_index(&line[j + strlen(operator.op)]);
+        line_right = strndup(&line[j + strlen(operator.op)], index_file);
+        line_left = get_str_from_part(line, j, index_file);
         tree = get_new_node(operator, operator.op);
         if (line_left == NULL || line_right == NULL || tree == NULL) {
             return (NULL);
@@ -64,7 +64,7 @@ static tree_t *get_operator(char *line, operator_t operator, int j)
 
     if (strncmp(&line[j], operator.op, strlen(operator.op)) == 0) {
         line_left = strndup(line, j - 1);
-        line_right = strdup(&line[j + 1]);
+        line_right = strdup(&line[j + strlen(operator.op)]);
         tree = get_new_node(operator, operator.op);
         if (tree == NULL || line_left == NULL || line_right == NULL) {
             return (NULL);
