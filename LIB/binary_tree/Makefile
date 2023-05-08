@@ -10,7 +10,7 @@ SRC	=	src/create_tree.c \
 
 OBJ = $(SRC:.c=.o)
 
-NAME = tree.a
+NAME = libtree.a
 
 CFLAGS = -W -Wall -Wextra -I./includes
 
