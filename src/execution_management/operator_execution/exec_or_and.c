@@ -19,7 +19,7 @@ int exec_or(env_t *env, tree_t *ast)
     pid = fork();
     if (pid == -1)
         return (-1);
-    if (pid == 0) {
+    if (pid != 0) {
         waitpid(pid, &wstatus, 0);
         if (!(WIFEXITED(wstatus) && WEXITSTATUS(wstatus) == 0)) {
             run_ast(ast->right_tree, env);
@@ -29,7 +29,9 @@ int exec_or(env_t *env, tree_t *ast)
         exit(0);
     }
     clean_ast(ast->left_tree);
+    ast->left_tree = NULL;
     clean_ast(ast->right_tree);
+    ast->right_tree = NULL;
     return (0);
 }
 
@@ -41,7 +43,7 @@ int exec_and(env_t *env, tree_t *ast)
     pid = fork();
     if (pid == -1)
         return (-1);
-    if (pid == 0) {
+    if (pid != 0) {
         waitpid(pid, &wstatus, 0);
         if ((WIFEXITED(wstatus) && WEXITSTATUS(wstatus) == 0)) {
             run_ast(ast->right_tree, env);
@@ -51,6 +53,8 @@ int exec_and(env_t *env, tree_t *ast)
         exit(0);
     }
     clean_ast(ast->left_tree);
+    ast->left_tree = NULL;
     clean_ast(ast->right_tree);
+    ast->right_tree = NULL;
     return (0);
 }
