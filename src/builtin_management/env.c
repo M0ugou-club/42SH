@@ -5,7 +5,8 @@
 ** env.c
 */
 
-#include <stdio.h>
+#include <string.h>
+#include <unistd.h>
 #include "env.h"
 
 int env(env_t *env)
@@ -17,7 +18,10 @@ int env(env_t *env)
     }
     tmp = env;
     for (; tmp->next; tmp = tmp->next) {
-        if (tmp->env_line)
-            printf("%s\n", tmp->env_line);
+        if (tmp->env_line) {
+            write(1, tmp->line, strlen(tmp->line));
+            write(1, '\n', 1);
+        }
     }
+    return 0;
 }
