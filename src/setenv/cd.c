@@ -43,7 +43,9 @@ static void cd_home(env_t *env, char *actual_cwd, char *old_cwd)
     }
     build_setenv_command(env, "OLDPWD", old_cwd);
     build_setenv_command(env, "PWD", home);
-    chdir(home);
+    if (chdir(home) < 0) {
+        return;
+    }
     free(home);
 }
 
@@ -55,44 +57,48 @@ static void cd_back(env_t *env, char *actual_cwd, char *old_cwd)
     if (back == NULL) {
         return;
     }
-    chdir(back);
+    if (chdir(back) < 0) {
+        return;
+    }
     build_setenv_command(env, "OLDPWD", old_cwd);
     build_setenv_command(env, "PWD", getcwd(actual_cwd, 1024));
     free(back);
 }
 
 
-static void manage_cd(env_t *env, char **command_array, char *actual_cwd,
+static int manage_cd(env_t *env, char **command_array, char *actual_cwd,
 char *old_cwd)
 {
-
-    if (command_array[1] == NULL) {
+    if (command_array[1] == NULL || strcmp("~", command_array[1])) {
         cd_home(env, actual_cwd, old_cwd);
-        return;
+        return -1;
     }
     if (command_array[1][0]) {
         cd_back(env, actual_cwd, old_cwd);
-        return;
+        return -1;
     }
     if (is_directory(command_array[1]) == false)
-        return;
+        return -1;
     if (chdir(command_array[1]) < 0)
-        return;
+        return -1;
     build_setenv_command(env, "OLDPWD", old_cwd);
     build_setenv_command(env, "PWD", getcwd(actual_cwd, 1024));
+    return (0);
 }
 
-void cd(env_t *env, char **command_array)
+int cd(env_t *env, char **command_array)
 {
     char *actual_cwd = NULL;
     char *old_cwd = NULL;
+    int return_value = 0;
 
     actual_cwd = malloc(sizeof(char) * BUFFER_SIZE);
     old_cwd = malloc(sizeof(char) * BUFFER_SIZE);
     if (actual_cwd == NULL || old_cwd == NULL)
         return;
     old_cwd = getcwd(old_cwd, BUFFER_SIZE);
-    manage_cd(env, command_array, actual_cwd, old_cwd);
+    return_value =  manage_cd(env, command_array, actual_cwd, old_cwd);
     free(actual_cwd);
     free(old_cwd);
+    return (return_value);
 }

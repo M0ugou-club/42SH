@@ -45,7 +45,7 @@ char *my_getenv(env_t *env, char *to_find)
     if (line_str == NULL) {
         return NULL;
     }
-    line_str = my_strcpy(line_str, line->env_line);
-    line_str = line_str + my_strlen(to_find);
+    line_str = my_strcpy(line_str, &line->env_line[strlen(to_find) +
+        strlen("=")]);
     return (line_str);
 }
