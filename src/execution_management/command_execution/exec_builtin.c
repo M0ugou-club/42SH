@@ -20,12 +20,14 @@ static const builtin_t all_builtin[] = {{"cd", NULL},
 
 int exec_builtin(env_t *env, char **command_array)
 {
+    int return_value = 0;
+
     if (command_array == NULL || command_array[COMMAND_INDEX] == NULL) {
         return (-1);
     }
     for (int i = 0; all_builtin[i].builtin != NULL; i++) {
-        if (strcmp(all_builtin[i].builtin, command_array[COMMAND_INDEX])) {
-            all_builtin[i].action(env, command_array);
+        if (strcmp(all_builtin[i].builtin, command_array[COMMAND_INDEX]) == 0) {
+           //return_value = all_builtin[i].action(env, command_array);
             return (0);
         }
     }

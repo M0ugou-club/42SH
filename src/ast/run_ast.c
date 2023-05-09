@@ -12,11 +12,12 @@
 int run_ast(tree_t *ast, env_t *env)
 {
     object_t *obj = NULL;
+    int return_value = 0;
 
     obj = ast->component;
     if (obj != NULL) {
         if (obj->action != NULL) {
-            obj->action(env, ast);
+            return_value = obj->action(env, ast);
         }
         if (ast->left_tree != NULL) {
             run_ast(ast->left_tree, env);
@@ -25,5 +26,5 @@ int run_ast(tree_t *ast, env_t *env)
             run_ast(ast->right_tree, env);
         }
     }
-    return (0);
+    return (return_value);
 }
