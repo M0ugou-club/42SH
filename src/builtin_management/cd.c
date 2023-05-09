@@ -9,6 +9,7 @@
 #include <stdbool.h>
 #include <unistd.h>
 #include <string.h>
+#include <stdlib.h>
 #include "env_utils.h"
 
 static const int BUFFER_SIZE = 512;
@@ -32,7 +33,7 @@ static bool is_directory(const char *path)
     return true;
 }
 
-static int cd_home(env_t *env, char *actual_cwd, char *old_cwd)
+static int cd_home(env_t *env, char *old_cwd)
 {
     char *home = NULL;
 
@@ -74,7 +75,7 @@ char *old_cwd)
     int return_value = 0;
 
     if (command_array[1] == NULL || strcmp(command_array[1], "~") == 0) {
-        return_value = cd_home(env, actual_cwd, old_cwd);
+        return_value = cd_home(env, old_cwd);
         return return_value;
     }
     if (strcmp(command_array[1], "-") == 0) {

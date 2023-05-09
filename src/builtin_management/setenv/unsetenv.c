@@ -7,6 +7,7 @@
 
 #include <stdlib.h>
 #include <stdbool.h>
+#include <unistd.h>
 #include "env_utils.h"
 
 static const char ERROR[29] = "unsetenv: Too few arguments.\n";

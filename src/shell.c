@@ -6,6 +6,7 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <stddef.h>
 #include "ast.h"
 #include "tree.h"
@@ -39,11 +40,11 @@ int run_sh(char *env[])
         return_value = loop_sh(my_env, line);
     }
     free(line);
-    my_env = free_env(my_env);
+    free_env(my_env);
     return (return_value);
 }
 
-int main(int ac, char **av, char *env[])
+int main(int, char **, char *env[])
 {
     int return_value = 0;
 

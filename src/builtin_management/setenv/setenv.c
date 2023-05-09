@@ -8,6 +8,7 @@
 #include <string.h>
 #include <unistd.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include "env_utils.h"
 
 static const char ERROR[28] = "setenv: Too many arguments.\n";

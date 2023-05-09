@@ -8,8 +8,9 @@
 #include <string.h>
 #include <unistd.h>
 #include "env.h"
+#include "unused.h"
 
-int print_env(env_t *env, char **command_array)
+int print_env(env_t *env, UNUSED char **command_array)
 {
     env_t *tmp = NULL;
 

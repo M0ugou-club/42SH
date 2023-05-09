@@ -7,6 +7,7 @@
 
 #include <unistd.h>
 #include <stddef.h>
+#include <stdlib.h>
 #include "sh.h"
 #include "ast.h"
 #include "tree.h"

@@ -7,6 +7,7 @@
 
 #include <sys/stat.h>
 #include <unistd.h>
+#include <string.h>
 
 int error_exec(char **command_array)
 {

@@ -10,10 +10,12 @@
 #include <unistd.h>
 #include <string.h>
 #include "env.h"
+#include "builtin.h"
+#include "env_utils.h"
 
 static const int SETENV_ARGS_NBR = 4;
 
-void build_setenv_command(char **env, char *var, char *str)
+void build_setenv_command(env_t *env, char *var, char *str)
 {
     char **command_array = NULL;
 

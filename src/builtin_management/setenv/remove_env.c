@@ -6,6 +6,7 @@
 */
 
 #include <stdlib.h>
+#include <string.h>
 #include "env.h"
 
 static void free_line(env_t *to_free)
@@ -65,15 +66,13 @@ static env_t *free_node(env_t *env, env_t *free_tmp)
     return (env);
 }
 
-void remove_line_in_env(const char *var, env_t *env)
+void remove_line_in_env(char *var, env_t *env)
 {
-    env_t *tmp = NULL;
     env_t *free_tmp = NULL;
 
     if (var == NULL || env == NULL)
         return;
     free_tmp = node_to_free(env, var);
-    tmp = env;
     if (free_tmp == NULL) {
         return;
     }
