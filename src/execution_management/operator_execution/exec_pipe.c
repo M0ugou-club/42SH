@@ -23,7 +23,7 @@ int exec_child(tree_t *ast, env_t *env, int pfd[2])
     int return_value = 0;
 
     dup2(pfd[1], STDOUT_FILENO);
-    run_ast(ast->left_tree, env);
+    return_value = run_ast(ast->left_tree, env);
     exit(return_value);
     return (return_value);
 }
