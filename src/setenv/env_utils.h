@@ -22,4 +22,10 @@
 
     int get_tab_len(char **tab);
 
+    void my_setenv(env_t *env, char **command_array);
+
+    char *my_getenv(env_t *env, char *to_find);
+
+    void build_setenv_command(char **env, char *var, char *str);
+
 #endif /* !ENV_UTILS_H_ */
