@@ -9,6 +9,7 @@
 #include <stdlib.h>
 #include <stddef.h>
 #include "ast.h"
+#include "unused.h"
 #include "tree.h"
 #include "env.h"
 #include "utils.h"
@@ -44,7 +45,7 @@ int run_sh(char *env[])
     return (return_value);
 }
 
-int main(int, char **, char *env[])
+int main(UNUSED int ac, UNUSED char **av, char *env[])
 {
     int return_value = 0;
 
