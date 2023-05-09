@@ -43,7 +43,7 @@ static tree_t *get_redirection(char *line, operator_t operator, int j)
     if (strncmp(&line[j], operator.op, strlen(operator.op)) == 0) {
         index_file = get_next_word_index(&line[j + strlen(operator.op)]);
         line_right = strndup(&line[j + strlen(operator.op)], index_file);
-        line_left = get_str_from_part(line, j, index_file);
+        line_left = get_str_from_part(line, j, index_file, operator.op);
         tree = get_new_node(operator, operator.op);
         if (line_left == NULL || line_right == NULL || tree == NULL) {
             return (NULL);
@@ -82,8 +82,8 @@ static tree_t *chose_command_operator(char *line, operator_t operator, int j, in
     tree_t *tree = NULL;
 
     if (i >= INDEX_REDIRECT) {
-        if (strcmp(operator.op, "command") == 0 && line[j] != ' ') {
-            tree = get_new_node(operator, line);
+        if ((strcmp(operator.op, "command") == 0) && (line[j] > ' ')) {
+            tree = get_new_node(operator, &line[j]);
         } else {
             tree = get_redirection(line, operator, j);
         }

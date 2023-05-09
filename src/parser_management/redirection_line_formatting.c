@@ -13,11 +13,9 @@ int get_next_word_index(char *line)
     int i = 0;
 
     while (line[i] == ' ') {
-        write(1, line[i], 1);
         i++;
     }
     while (line[i] != ' ' && line[i] != '\0') {
-        write(1, line[i], 1);
         i++;
     }
     return (i);
