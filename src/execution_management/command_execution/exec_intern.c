@@ -15,12 +15,29 @@
 #include "env.h"
 #include "utils.h"
 
+int my_segfault(int wstatus)
+{
+    int signal = 0;
+
+    if (WIFEXITED(wstatus))
+        return (WEXITSTATUS(wstatus));
+    signal = WTERMSIG(wstatus);
+    if (wstatus == 136) {
+        write(2, "Floating exception (core dumped)\n", 33);
+    } else {
+        write(2, strsignal(signal), strlen(strsignal(signal)));
+        write(2, "\n", 1);
+    }
+    return (wstatus);
+}
+
 int execution(char **command_array, char **my_env)
 {
     int pid = 0;
     int wstatus = 0;
+    int return_value = 0;
 
-    if (error_exec() == 1) {
+    if (error_exec(command_array) == 1) {
         return (1);
     }
     pid = fork();
@@ -34,7 +51,8 @@ int execution(char **command_array, char **my_env)
             exit(-1);
         }
     }
-    return (wstatus);
+    return_value = my_segfault(wstatus);
+    return (return_value);
 }
 
 int get_function(char **path_array, char **command_array)
@@ -77,6 +95,7 @@ int exec_intern(env_t *env, char **command_array)
 {
     char **path_array = NULL;
     char **my_env = NULL;
+    int return_value = 0;
 
     path_array = get_path_array(env);
     if (path_array == -1)
@@ -86,6 +105,8 @@ int exec_intern(env_t *env, char **command_array)
     if (my_env == NULL) {
         return (-1);
     }
-    execution(command_array, my_env);
-    return (0);
+    return_value = execution(command_array, my_env);
+    free_tab(path_array);
+    free_tab(my_env);
+    return (return_value);
 }
