@@ -26,17 +26,18 @@ static bool error(env_t *env, char **command_array)
     return false;
 }
 
-void my_setenv(env_t *env, char **command_array)
+int my_setenv(env_t *env, char **command_array)
 {
     int tab_len = 0;
     char *line = NULL;
     env_t *tmp = NULL;
 
     if (error(env, command_array))
-        return;
+        return (1);
     tab_len = get_tab_len(command_array);
     if (tab_len == 1) {
-        //env()
+        print_env(env, command_array);
+        return (0);
     }
     line = create_new_line(command_array[FIRST_ARG], command_array[SEC_ARG]);
     tmp = find_var_in_env(env, command_array[FIRST_ARG]);
@@ -46,4 +47,5 @@ void my_setenv(env_t *env, char **command_array)
         free(tmp->env_line);
         tmp->env_line = line;
     }
+    return (0);
 }
