@@ -49,9 +49,9 @@ int exec_pipe(env_t *env, tree_t *ast)
     int wstatus = 0;
     int return_value = -1;
 
-    if ((pid = fork()) == -1)
-        return (return_value);
     if (pipe(pfd) < 0)
+        return (return_value);
+    if ((pid = fork()) == -1)
         return (return_value);
     if (pid != 0) {
         waitpid(pid, &wstatus, 0);
