@@ -26,7 +26,7 @@ static bool error(env_t *env, char **command_array)
     return false;
 }
 
-void setenv(env_t *env, char **command_array)
+void my_setenv(env_t *env, char **command_array)
 {
     int tab_len = 0;
     char *line = NULL;
