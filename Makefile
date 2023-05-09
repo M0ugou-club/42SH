@@ -18,6 +18,15 @@ EXECUTION_COMMAND = \
 	./src/execution_management/command_execution/exec_command.c \
 	./src/execution_management/command_execution/exec_intern.c
 
+BUILTIN = \
+	./src/builtin_management/setenv/env_utils.c \
+	./src/builtin_management/setenv/env_utils2.c \
+	./src/builtin_management/setenv/setenv.c \
+	./src/builtin_management/setenv/unsetenv.c \
+	./src/builtin_management/setenv/remove_env.c \
+	./src/builtin_management/cd.c \
+	./src/builtin_management/env.c
+
 EXECUTION_OPERATOR = \
 	./src/execution_management/operator_execution/exec_or_and.c \
 	./src/execution_management/operator_execution/exec_pipe.c \
@@ -30,12 +39,13 @@ PARSER = ./src/parser_management/parser.c \
 UTILS = ./src/utils/replace_char.c \
 		./src/utils/str_to_word_array.c \
 		./src/utils/str_clear.c \
-		./src/utils/free_tab.c
+		./src/utils/free_tab.c \
+		./src/utils/get_tab_len.c
 
 MAIN = ./src/shell.c
 
 SRC = $(ENV) $(EXECUTION_COMMAND) $(EXECUTION_OPERATOR) $(PARSER) $(UTILS) \
-	  $(MAIN) $(AST)
+	  $(MAIN) $(AST) $(BUILTIN)
 
 OBJ = $(SRC:.c=.o)
 
