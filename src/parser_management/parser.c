@@ -77,7 +77,8 @@ static tree_t *get_operator(char *line, operator_t operator, int j)
     return (tree);
 }
 
-static tree_t *chose_command_operator(char *line, operator_t operator, int j, int i)
+static tree_t *chose_command_operator(char *line, operator_t operator, int j,
+    int i)
 {
     tree_t *tree = NULL;
 

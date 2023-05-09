@@ -17,7 +17,6 @@ int loop_sh(env_t *env, char *line)
     tree_t *ast = NULL;
 
     line = str_clear(line);
-    /*bonus();*/
     ast = parser(line);
     run_ast(ast, env);
     clean_ast(ast);
