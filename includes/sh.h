@@ -24,11 +24,11 @@
     /* Function in function pointer */
     int exec_builtin(env_t *env, char **command_array);
     int exec_intern(env_t *env, char **command_array);
-    int error_exec(void);
+    int error_exec(char **command_array);
 
     /* Parser */
     int get_next_word_index(char *line);
     char *get_str_from_part(char *line, int middle_index, int index_to_skip,
-        char *str);
+        char *operator);
 
 #endif /* !SH_H_ */
