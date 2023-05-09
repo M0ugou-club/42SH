@@ -14,7 +14,7 @@
 
     typedef struct builtin_s {
         char *builtin;
-        void (* action) (env_t *env, char **command_array);
+        int (* action) (env_t *env, char **command_array);
     } builtin_t;
 
 #endif /* !BUILTIN_H_ */

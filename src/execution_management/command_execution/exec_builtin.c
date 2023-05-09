@@ -26,8 +26,9 @@ int exec_builtin(env_t *env, char **command_array)
         return (-1);
     }
     for (int i = 0; all_builtin[i].builtin != NULL; i++) {
-        if (strcmp(all_builtin[i].builtin, command_array[COMMAND_INDEX]) == 0) {
-           //return_value = all_builtin[i].action(env, command_array);
+        if (strcmp(all_builtin[i].builtin, command_array[COMMAND_INDEX]
+            && all_builtin[i].action != NULL) == 0) {
+            return_value = all_builtin[i].action(env, command_array);
             return (0);
         }
     }
