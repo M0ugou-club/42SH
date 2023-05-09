@@ -98,7 +98,7 @@ int exec_intern(env_t *env, char **command_array)
     int return_value = 0;
 
     path_array = get_path_array(env);
-    if (path_array == -1)
+    if (path_array == NULL)
         return (-1);
     get_function(path_array, command_array);
     my_env = get_env_array(env);
