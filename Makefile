@@ -7,7 +7,7 @@
 
 AST = ./src/ast/clean_ast.c \
 	  ./src/ast/create_obj.c \
-	  ./src/run_ast.c
+	  ./src/ast/run_ast.c
 
 ENV = ./src/env_management/free_env.c \
 	  ./src/env_management/switch_env_array.c
@@ -27,12 +27,15 @@ EXECUTION_OPERATOR = \
 PARSER = ./src/parser_management/parser.c \
 		 ./src/parser_management/redirection_line_formatting.c
 
-UTILS = ./src/utils/replace_char.c
+UTILS = ./src/utils/replace_char.c \
+		./src/utils/str_to_word_array.c \
+		./src/utils/str_clear.c \
+		./src/utils/free_tab.c
 
 MAIN = ./src/shell.c
 
 SRC = $(ENV) $(EXECUTION_COMMAND) $(EXECUTION_OPERATOR) $(PARSER) $(UTILS) \
-	  $(MAIN)
+	  $(MAIN) $(AST)
 
 OBJ = $(SRC:.c=.o)
 
@@ -41,7 +44,7 @@ NAME = 42sh
 CFLAGS = 	-W -Wall -Wextra -Iincludes -ILIB/binary_tree/includes \
 	-Isrc/execution_management/command_execution/includes
 
-LDFLAGS = 	-L ./LIB/tree.a
+LDFLAGS = 	-L ./LIB/ -ltree
 
 $(NAME):     $(OBJ)
 		make -C LIB/binary_tree/
