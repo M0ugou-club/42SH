@@ -41,10 +41,11 @@ char *my_getenv(env_t *env, char *to_find)
     if (line == NULL) {
         return NULL;
     }
-    line_str = malloc(sizeof(char) * my_strlen(line->env_line));
+    line_str = malloc(sizeof(char) * strlen(line->env_line));
     if (line_str == NULL) {
         return NULL;
     }
+    memset(line_str, '\0', strlen(line->env_line));
     line_str = my_strcpy(line_str, &line->env_line[strlen(to_find) +
         strlen("=")]);
     return (line_str);
