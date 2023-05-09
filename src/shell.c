@@ -16,11 +16,12 @@ int loop_sh(env_t *env, char *line)
 {
     tree_t *ast = NULL;
 
-    line = strclean(line);
+    line = str_clear(line);
     /*bonus();*/
-    parser(line);
+    ast = parser(line);
     run_ast(ast, env);
     clean_ast(ast);
+    return (0);
 }
 
 int run_sh(char *env[])
@@ -38,6 +39,8 @@ int run_sh(char *env[])
         replace_char(line, '\n', '\0');
         return_value = loop_sh(my_env, line);
     }
+    free(line);
+    my_env = free_env(my_env);
     return (return_value);
 }
 
