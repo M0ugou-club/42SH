@@ -11,19 +11,24 @@
 #include "ast.h"
 #include "tree.h"
 #include "env.h"
+#include "utils.h"
 
 int separate_builtin_intern(env_t *env, char *command)
 {
     char *command_cleared = NULL;
     char **command_array = NULL;
+    int return_value = 0;
 
-    command_cleared = my_strclear(command);
-    command_array = my_str_to_word_array(command_cleared);
-    if (exec_builtin(env, command_array) == -1) {
-        return (0);
+    command_cleared = str_clear(command);
+    command_array = str_to_word_array(command_cleared, " ");
+    return_value = exec_builtin(env, command_array);
+    if (return_value != -1) {
+        return (return_value);
     }
-    exec_intern(env, command_array);
-    return (0);
+    return_value = exec_intern(env, command_array);
+    free_tab(command_array);
+    free(command_cleared);
+    return (return_value);
 }
 
 int exec_command(env_t *env, tree_t *ast)
