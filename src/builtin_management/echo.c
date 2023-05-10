@@ -25,9 +25,9 @@ static bool check_flag(char **command_array)
 static void prompt_echo(char **command_array, bool flag, int i)
 {
     write(1, command_array[i], strlen(command_array[i]));
-    if (command_array[i + 1] == NULL && flag == flase) {
+    if (command_array[i + 1] == NULL && flag == false) {
         write(1, "\n", 1);
-    } else {
+    } else if (strcmp(command_array[i + 1], "-n") != 0) {
         write(1, " ", 1);
     }
 }
