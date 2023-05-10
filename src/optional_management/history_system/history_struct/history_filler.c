@@ -5,17 +5,21 @@
 ** history_filler
 */
 
+#include <string.h>
+
 #include "history.h"
 
-void *history_filler(hist_t *history, char *command)
+void history_filler(hist_t *history, char **command)
 {
-    hist_t *new = NULL;
-    if (!history)
+    hist_short_t type = history_shortcut_finder(*command);
+    if (!history) {
         history = history_init();
-    new = history_init();
-    if (!new)
-        return (NULL);
-    new->command = my_strdup(command);
-    new->next = history;
-    history = new;
+    }
+    if (type != NONE) {
+        history_shortcut_handler(history, command, type);
+    }
+    history->command = strdup(*command);
+    history->next = history_init();
+    history->next->prev = history;
+    history = history->next;
 }
