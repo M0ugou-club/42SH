@@ -11,12 +11,12 @@
 
 void history_free(hist_t *old)
 {
-    if (old) {
-        if (command) {
-            free(old->command);
-        }
-        if (old->next) {
-            history_free(old->next);
-        }
+    hist_t *tmp;
+
+    while (old) {
+        tmp = old;
+        old = old->next;
+        free(tmp->command);
+        free(tmp);
     }
 }
