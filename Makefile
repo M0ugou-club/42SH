@@ -7,7 +7,8 @@
 
 AST = ./src/ast/clean_ast.c \
 	  ./src/ast/create_obj.c \
-	  ./src/ast/run_ast.c
+	  ./src/ast/run_ast.c \
+	  ./src/ast/ast_error.c
 
 ENV = ./src/env_management/free_env.c \
 	  ./src/env_management/switch_env_array.c
