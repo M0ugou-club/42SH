@@ -11,22 +11,38 @@
 #include <string.h>
 #include "env.h"
 
+char *get_var_complete(char *var)
+{
+    char *copy = NULL;
+
+    copy = malloc(sizeof(char) * (strlen(var) + 2));
+    memset(copy, '\0', strlen(var) + 2);
+    strcpy(copy, var);
+    strcat(copy, "=");
+    return(copy);
+}
+
 env_t *find_var_in_env(env_t *env, const char *var)
 {
     env_t *tmp = NULL;
     size_t var_len = 0;
+    char *copy = NULL;
 
-    if (env == NULL || var == NULL) {
+    if (env == NULL || var == NULL)
         return NULL;
-    }
-    var_len = strlen(var);
+    copy = get_var_complete(var);
+    if (copy == NULL)
+        return (NULL);
+    var_len = strlen(copy);
     tmp = env;
     while (tmp->next != NULL) {
         tmp = tmp->next;
-        if (strncmp(tmp->env_line, var, var_len) == 0) {
+        if (strncmp(tmp->env_line, copy, var_len) == 0) {
+            free(copy);
             return tmp;
         }
     }
+    free(copy);
     return NULL;
 }
 

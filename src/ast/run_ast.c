@@ -16,7 +16,9 @@ int run_ast(tree_t *ast, env_t *env)
     object_t *obj = NULL;
     int return_value = 0;
 
-    obj = ast->component;
+    if (ast != NULL) {
+        obj = ast->component;
+    }
     if (obj != NULL) {
         if (obj->action != NULL) {
             return_value = obj->action(env, ast);

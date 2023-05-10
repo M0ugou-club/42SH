@@ -27,7 +27,7 @@ int path_checker(env_t *env)
     }
     temp = env;
     while (temp) {
-        if (strncmp(temp->env_line, "PATH=", 5)) {
+        if (strncmp(temp->env_line, "PATH=", 5) == 0) {
             check_path = true;
         }
         temp = temp->next;
@@ -44,7 +44,9 @@ int loop_sh(env_t *env, char *line)
 
     line = str_clear(line);
     ast = parser(line);
-    run_ast(ast, env);
+    if (get_ast_error(ast) == 0) {
+        run_ast(ast, env);
+    }
     clean_ast(ast);
     return (0);
 }
@@ -60,6 +62,7 @@ int run_sh(char *env[])
     if (my_env == NULL) {
         return (-1);
     }
+    path_checker(my_env);
     while (getline(&line, &size, stdin) != EOF) {
         replace_char(line, '\n', '\0');
         return_value = loop_sh(my_env, line);

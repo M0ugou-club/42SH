@@ -34,5 +34,6 @@
     int run_ast(tree_t *ast, env_t *env);
     tree_t *create_obj(int (*action) (env_t *env, tree_t *ast), void *data,
         data_type_t type);
+    int get_ast_error(tree_t *ast);
 
 #endif /* !AST_H_ */
