@@ -35,7 +35,7 @@ char *create_new_line(char *var, char *value)
     char *new_line = NULL;
     int len = 0;
 
-    len = strlen(var + 2);
+    len = strlen(var) + 2;
     if (value != NULL) {
         len += strlen(value);
     }
