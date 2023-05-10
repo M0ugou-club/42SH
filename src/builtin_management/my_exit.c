@@ -15,20 +15,33 @@
 
 void my_exit_builtin(env_t *env, char **command_array)
 {
-    if (get_tab_len(command_array) != 2 || isdigit(command_array[1])) {
+    int return_value = 0;
+
+    if (env == NULL || command_array == NULL) {
+        return;
+    }
+    if (get_tab_len(command_array) != 2 && get_tab_len(command_array) != 1) {
         write(2, "exit: Expression Syntax.\n", 25);
         return;
     }
-    my_exit(env, 0, true);
+    return_value = my_exit(env, 0, true);
+    if (command_array[1] != NULL) {
+        if (!isdigit(command_array[1])) {
+            write(2, "exit: Expression Syntax.\n", 25);
+            return;
+        }
+        return_value = atoi(command_array[1]);
+    }
+    free_env(env);
+    exit(return_value);
 }
 
-void my_exit(env_t *env, int new_return_value, bool is_exit)
+int update_return_value(env_t *env, int new_return_value, bool is_exit)
 {
     static int return_value = 0;
 
     if (is_exit) {
-        free_env(env);
-        exit(return_value);
+        return(return_value);
     } else {
         return_value = new_return_value;
     }

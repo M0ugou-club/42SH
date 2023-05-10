@@ -28,6 +28,6 @@ int run_ast(tree_t *ast, env_t *env)
             return_value = run_ast(ast->right_tree, env);
         }
     }
-    my_exit(env, return_value, false);
+    update_return_value(env, return_value, false);
     return (return_value);
 }
