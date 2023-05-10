@@ -22,7 +22,9 @@ static int exec_in(tree_t *ast, int fd, env_t *env)
 
     save_in = dup(STDIN_FILENO);
     dup2(fd, STDIN_FILENO);
-    return_value = run_ast(ast->left_tree, env);
+    if (ast->left_tree != NULL) {
+        return_value = run_ast(ast->left_tree, env);
+    }
     dup2(save_in, STDIN_FILENO);
     clean_ast(ast->left_tree);
     ast->left_tree = NULL;
@@ -54,11 +56,14 @@ static int loop_double_in(char *stop_str, int pfd[2])
 
 int exec_double_in(env_t *env, tree_t *ast)
 {
-    object_t *obj_right = ast->right_tree->component;
+    object_t *obj_right = NULL;
     char *stop_str = NULL;
     int pfd[2];
     int return_value = 0;
 
+    if (ast->right_tree != NULL) {
+        obj_right = ast->right_tree->component;
+    }
     if (pipe(pfd) == -1)
         return (-1);
     stop_str = str_clear(obj_right->data);
@@ -72,11 +77,14 @@ int exec_double_in(env_t *env, tree_t *ast)
 
 int exec_simple_in(env_t *env, tree_t *ast)
 {
-    object_t *obj_right = ast->right_tree->component;
+    object_t *obj_right = NULL;
     char *file_name = NULL;
     int file_fd = 0;
     int return_value = 0;
 
+    if (ast->right_tree != NULL) {
+        obj_right = ast->right_tree->component;
+    }
     file_name = str_clear(obj_right->data);
     if (file_name != NULL) {
         file_fd = open(file_name, O_RDONLY);

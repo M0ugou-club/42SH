@@ -23,7 +23,9 @@ int exec_child(tree_t *ast, env_t *env, int pfd[2])
     int return_value = 0;
 
     dup2(pfd[1], STDOUT_FILENO);
-    return_value = run_ast(ast->left_tree, env);
+    if (ast->left_tree != NULL) {
+        return_value = run_ast(ast->left_tree, env);
+    }
     exit(return_value);
     return (return_value);
 }
@@ -36,7 +38,9 @@ int exec_parent(tree_t *ast, env_t *env, int pfd[2])
     close(pfd[1]);
     save_in = dup(STDIN_FILENO);
     dup2(pfd[0], STDIN_FILENO);
-    return_value = run_ast(ast->right_tree, env);
+    if (ast->right_tree != NULL) {
+        return_value = run_ast(ast->right_tree, env);
+    }
     dup2(save_in, STDIN_FILENO);
     close(pfd[0]);
     return (return_value);

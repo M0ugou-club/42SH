@@ -13,9 +13,13 @@ int exec_or(env_t *env, tree_t *ast)
 {
     int return_value = 0;
 
-    return_value = run_ast(ast->left_tree, env);
+    if (ast->left_tree != NULL) {
+        return_value = run_ast(ast->left_tree, env);
+    }
     if (return_value != 0) {
-        run_ast(ast->right_tree, env);
+        if (ast->right_tree != NULL) {
+            run_ast(ast->right_tree, env);
+        }
     }
     clean_ast(ast->left_tree);
     ast->left_tree = NULL;
@@ -28,9 +32,13 @@ int exec_and(env_t *env, tree_t *ast)
 {
     int return_value = 0;
 
-    return_value = run_ast(ast->left_tree, env);
+    if (ast->left_tree != NULL) {
+        return_value = run_ast(ast->left_tree, env);
+    }
     if (return_value == 0) {
-        run_ast(ast->right_tree, env);
+        if (ast->right_tree != NULL) {
+            run_ast(ast->right_tree, env);
+        }
     }
     clean_ast(ast->left_tree);
     ast->left_tree = NULL;

@@ -30,7 +30,9 @@ static int exec_out(tree_t *ast, int file_fd, char *file_name, env_t *env)
 
     save_out = dup(STDOUT_FILENO);
     dup2(file_fd, STDOUT_FILENO);
-    run_ast(ast->left_tree, env);
+    if (ast->left_tree != NULL) {
+        run_ast(ast->left_tree, env);
+    }
     dup2(save_out, STDOUT_FILENO);
     free(file_name);
     close(file_fd);
@@ -45,8 +47,11 @@ int exec_double_out(env_t *env, tree_t *ast)
 {
     int file_fd = 0;
     char *file_name = NULL;
-    object_t *obj_right = ast->right_tree->component;
+    object_t *obj_right = NULL;
 
+    if (ast->right_tree != NULL) {
+        obj_right = ast->right_tree->component;
+    }
     if (obj_right != NULL) {
         file_name = str_clear(obj_right->data);
     }
@@ -65,8 +70,11 @@ int exec_simple_out(env_t *env, tree_t *ast)
 {
     int file_fd = 0;
     char *file_name = NULL;
-    object_t *obj_right = ast->right_tree->component;
+    object_t *obj_right = NULL;
 
+    if (ast->right_tree != NULL) {
+        obj_right = ast->right_tree->component;
+    }
     if (obj_right != NULL) {
         file_name = str_clear(obj_right->data);
     }
