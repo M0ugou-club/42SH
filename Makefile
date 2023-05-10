@@ -26,7 +26,8 @@ BUILTIN = \
 	./src/builtin_management/setenv/remove_env.c \
 	./src/builtin_management/cd.c \
 	./src/builtin_management/env.c \
-	./src/builtin_management/my_exit.c
+	./src/builtin_management/my_exit.c \
+	./src/builtin_management/echo.c
 
 EXECUTION_OPERATOR = \
 	./src/execution_management/operator_execution/exec_or_and.c \

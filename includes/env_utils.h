@@ -7,7 +7,7 @@
 
 #ifndef ENV_UTILS_H_
     #define ENV_UTILS_H_
-    
+
     #include <stdbool.h>
     #include "env.h"
 

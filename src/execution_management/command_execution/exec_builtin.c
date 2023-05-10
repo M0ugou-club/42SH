@@ -10,12 +10,12 @@
 #include "builtin.h"
 #include "env.h"
 
-static const builtin_t all_builtin[] = {{"cd", &cd},
+static const builtin_t all_builtin[] = {{"cd", &my_cd},
 {"env", &print_env},
 {"setenv", &my_setenv},
 {"unsetenv", &my_unsetenv},
 {"exit", NULL},
-{"echo", NULL},
+{"echo", &my_echo},
 {NULL, NULL}};
 
 int exec_builtin(env_t *env, char **command_array)

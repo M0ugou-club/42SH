@@ -16,9 +16,10 @@
         int (* action) (env_t *env, char **command_array);
     } builtin_t;
 
-    int cd(env_t *env, char **command_array);
+    int my_cd(env_t *env, char **command_array);
     int my_setenv(env_t *env, char **command_array);
     int print_env(env_t *env, char **command_array);
     int my_unsetenv(env_t *env, char **command_array);
+    int my_echo(env_t *env , char **command_array);
 
 #endif /* !BUILTIN_H_ */

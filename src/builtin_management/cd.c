@@ -68,7 +68,6 @@ static int cd_back(env_t *env, char *actual_cwd, char *old_cwd)
     return (0);
 }
 
-
 static int manage_cd(env_t *env, char **command_array, char *actual_cwd,
 char *old_cwd)
 {
@@ -91,14 +90,14 @@ char *old_cwd)
     return (0);
 }
 
-int cd(env_t *env, char **command_array)
+int my_cd(env_t *env, char **command_array)
 {
     char *actual_cwd = NULL;
     char *old_cwd = NULL;
     int return_value = 0;
 
     old_cwd = getcwd(old_cwd, BUFFER_SIZE);
-    return_value =  manage_cd(env, command_array, actual_cwd, old_cwd);
+    return_value = manage_cd(env, command_array, actual_cwd, old_cwd);
     if (actual_cwd != NULL)
         free(actual_cwd);
     if (old_cwd != NULL)

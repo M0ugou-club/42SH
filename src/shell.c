@@ -8,11 +8,35 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stddef.h>
+#include <stdbool.h>
+#include <string.h>
 #include "ast.h"
 #include "unused.h"
 #include "tree.h"
 #include "env.h"
+#include "env_utils.h"
 #include "utils.h"
+
+int path_checker(env_t *env)
+{
+    bool check_path = false;
+    env_t *temp = NULL;
+
+    if (!env) {
+        return -1;
+    }
+    temp = env;
+    while (temp) {
+        if (strncmp(temp->env_line, "PATH=", 5)) {
+            check_path = true;
+        }
+        temp = temp->next;
+    }
+    if (check_path == false) {
+        build_setenv_command(env, "PATH", "PATH=/bin:/usr/bin");
+    }
+    return 0;
+}
 
 int loop_sh(env_t *env, char *line)
 {
