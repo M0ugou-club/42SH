@@ -31,6 +31,6 @@
 
     int print_env(env_t *env, char **command_array);
 
-    void my_exit(env_t *env, int new_return_value, bool is_exit);
+    int update_return_value(env_t *env, int new_return_value, bool is_exit);
 
 #endif /* !ENV_UTILS_H_ */
