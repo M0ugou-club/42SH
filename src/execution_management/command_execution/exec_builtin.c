@@ -15,6 +15,7 @@ static const builtin_t all_builtin[] = {{"cd", &my_cd},
 {"setenv", &my_setenv},
 {"unsetenv", &my_unsetenv},
 {"exit", NULL},
+{"history", &history},
 {"echo", &my_echo},
 {NULL, NULL}};
 
