@@ -8,6 +8,7 @@
 #ifndef ENV_UTILS_H_
     #define ENV_UTILS_H_
 
+    #include <stdbool.h>
     #include "env.h"
 
     int get_tab_len(char **tab);
@@ -29,5 +30,7 @@
     void build_setenv_command(env_t *env, char *var, char *str);
 
     int print_env(env_t *env, char **command_array);
+
+    int update_return_value(env_t *env, int new_return_value, bool is_exit);
 
 #endif /* !ENV_UTILS_H_ */

@@ -6,7 +6,9 @@
 */
 
 #include <stddef.h>
+#include <stdbool.h>
 #include "ast.h"
+#include "env_utils.h"
 #include "env.h"
 
 int run_ast(tree_t *ast, env_t *env)
@@ -26,5 +28,6 @@ int run_ast(tree_t *ast, env_t *env)
             return_value = run_ast(ast->right_tree, env);
         }
     }
+    update_return_value(env, return_value, false);
     return (return_value);
 }
