@@ -12,6 +12,16 @@
 #include "env.h"
 #include "env_utils.h"
 
+int update_return_value(env_t *env, int new_return_value, bool is_exit)
+{
+    static int return_value = 0;
+
+    if (is_exit) {
+        return(return_value);
+    } else {
+        return_value = new_return_value;
+    }
+}
 
 void my_exit_builtin(env_t *env, char **command_array)
 {
@@ -24,7 +34,7 @@ void my_exit_builtin(env_t *env, char **command_array)
         write(2, "exit: Expression Syntax.\n", 25);
         return;
     }
-    return_value = my_exit(env, 0, true);
+    return_value = update_return_value(env, 0, true);
     if (command_array[1] != NULL) {
         if (!isdigit(command_array[1])) {
             write(2, "exit: Expression Syntax.\n", 25);
@@ -34,15 +44,4 @@ void my_exit_builtin(env_t *env, char **command_array)
     }
     free_env(env);
     exit(return_value);
-}
-
-int update_return_value(env_t *env, int new_return_value, bool is_exit)
-{
-    static int return_value = 0;
-
-    if (is_exit) {
-        return(return_value);
-    } else {
-        return_value = new_return_value;
-    }
 }
