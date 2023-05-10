@@ -7,10 +7,9 @@
 
 #ifndef BUILTIN_H_
     #define BUILTIN_H_
+    #define COMMAND_INDEX 0
 
     #include "env.h"
-
-    #define COMMAND_INDEX 0
 
     typedef struct builtin_s {
         char *builtin;
