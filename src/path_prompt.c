@@ -38,7 +38,7 @@ int print_path_prompt(void)
     char *path_prompt = NULL;
 
     if (is_to_write() == true) {
-            path_prompt = get_path();
+        path_prompt = get_path();
         if (path_prompt == NULL)
             return (84);
         write(1, path_prompt, strlen(path_prompt));
