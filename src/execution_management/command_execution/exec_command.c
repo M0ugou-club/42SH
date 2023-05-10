@@ -8,11 +8,33 @@
 #include <unistd.h>
 #include <stddef.h>
 #include <stdlib.h>
+#include <string.h>
+#include "env_utils.h"
 #include "sh.h"
 #include "ast.h"
 #include "tree.h"
 #include "env.h"
 #include "utils.h"
+
+int switch_env_call(env_t *env, char **command_array)
+{
+    char *tmp = NULL;
+
+    for (int i = 0; command_array[i] != NULL; i++) {
+        if (strncmp(command_array[i], "$", strlen("$")) == 0) {
+            tmp = my_getenv(env, &command_array[i][strlen("$")]);
+        }
+        if (tmp != NULL) {
+            free(command_array[i]);
+            command_array[i] = strdup(tmp);
+        }
+        if (command_array[i] == NULL) {
+            return (-1);
+        }
+        tmp = NULL;
+    }
+    return (0);
+}
 
 int separate_builtin_intern(env_t *env, char *command)
 {
@@ -22,6 +44,9 @@ int separate_builtin_intern(env_t *env, char *command)
 
     command_cleared = str_clear(command);
     command_array = str_to_word_array(command_cleared, " ");
+    if (switch_env_call(env, command_array) == -1) {
+        return (-1);
+    }
     return_value = exec_builtin(env, command_array);
     if (return_value != -1) {
         return (return_value);
