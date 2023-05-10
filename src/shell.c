@@ -8,6 +8,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stddef.h>
+#include <stdbool.h>
+#include <string.h>
 #include "ast.h"
 #include "unused.h"
 #include "tree.h"
@@ -21,12 +23,12 @@ int path_checker(env_t *env)
     env_t *temp = NULL;
 
     if (!env) {
-        return -1
+        return -1;
     }
     temp = env;
     while (temp) {
-        if (strncmp(temp->env_line, "PATH=", 5) {
-            checker_path = true;
+        if (strncmp(temp->env_line, "PATH=", 5)) {
+            check_path = true;
         }
         temp = temp->next;
     }
