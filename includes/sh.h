@@ -10,16 +10,18 @@
 
     #include "env.h"
     #include "tree.h"
+    #include "to_free.h"
+    #include "unused.h"
 
     /* Function pointer */
-    int exec_or(env_t *env, tree_t *ast);
-    int exec_and(env_t *env, tree_t *ast);
-    int exec_pipe(env_t *env, tree_t *ast);
-    int exec_simple_in(env_t *env, tree_t *ast);
-    int exec_double_in(env_t *env, tree_t *ast);
-    int exec_command(env_t *env, tree_t *ast);
-    int exec_double_out(env_t *env, tree_t *ast);
-    int exec_simple_out(env_t *env, tree_t *ast);
+    int exec_or(env_t *env, tree_t *ast, to_free_t *memory_struct);
+    int exec_and(env_t *env, tree_t *ast, to_free_t *memory_struct);
+    int exec_pipe(env_t *env, tree_t *ast, to_free_t *memory_struct);
+    int exec_simple_in(env_t *env, tree_t *ast, to_free_t *memory_struct);
+    int exec_double_in(env_t *env, tree_t *ast, to_free_t *memory_struct);
+    int exec_command(env_t *env, tree_t *ast, UNUSED to_free_t *memory_struct);
+    int exec_double_out(env_t *env, tree_t *ast, to_free_t *memory_struct);
+    int exec_simple_out(env_t *env, tree_t *ast, to_free_t *memory_struct);
 
     /* Function in function pointer */
     int exec_builtin(env_t *env, char **command_array);

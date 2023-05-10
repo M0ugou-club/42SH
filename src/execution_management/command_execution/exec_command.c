@@ -15,6 +15,7 @@
 #include "tree.h"
 #include "env.h"
 #include "utils.h"
+#include "to_free.h"
 
 int switch_env_call(env_t *env, char **command_array)
 {
@@ -59,7 +60,7 @@ int separate_builtin_intern(env_t *env, char *command)
     return (return_value);
 }
 
-int exec_command(env_t *env, tree_t *ast)
+int exec_command(env_t *env, tree_t *ast, UNUSED to_free_t *memory_struct)
 {
     char *command = NULL;
     object_t *obj = ast->component;
