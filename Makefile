@@ -43,9 +43,12 @@ UTILS = ./src/utils/replace_char.c \
 		./src/utils/str_to_word_array.c \
 		./src/utils/str_clear.c \
 		./src/utils/free_tab.c \
-		./src/utils/get_tab_len.c
+		./src/utils/get_tab_len.c \
+		./src/utils/struct_free_utils.c
 
-MAIN = ./src/shell.c
+MAIN = ./src/shell.c \
+	   ./src/path_prompt.c \
+	   ./src/main.c
 
 SRC = $(ENV) $(EXECUTION_COMMAND) $(EXECUTION_OPERATOR) $(PARSER) $(UTILS) \
 	  $(MAIN) $(AST) $(BUILTIN)
