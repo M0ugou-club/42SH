@@ -10,10 +10,12 @@
 #include <unistd.h>
 #include <string.h>
 #include "env.h"
+#include "builtin.h"
+#include "env_utils.h"
 
 static const int SETENV_ARGS_NBR = 4;
 
-static void build_setenv_command(char **env, char *var, char *str)
+void build_setenv_command(env_t *env, char *var, char *str)
 {
     char **command_array = NULL;
 
@@ -21,9 +23,9 @@ static void build_setenv_command(char **env, char *var, char *str)
     if (command_array == NULL) {
         return;
     }
-    command_array[0] = my_strdup("setenv");
-    command_array[1] = my_strdup(var);
-    command_array[2] = my_strdup(str);
+    command_array[0] = strdup("setenv");
+    command_array[1] = strdup(var);
+    command_array[2] = strdup(str);
     command_array[3] = NULL;
     my_setenv(env, command_array);
     free(command_array[2]);
@@ -46,7 +48,7 @@ char *my_getenv(env_t *env, char *to_find)
         return NULL;
     }
     memset(line_str, '\0', strlen(line->env_line));
-    line_str = my_strcpy(line_str, &line->env_line[strlen(to_find) +
+    line_str = strcpy(line_str, &line->env_line[strlen(to_find) +
         strlen("=")]);
     return (line_str);
 }

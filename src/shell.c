@@ -6,16 +6,23 @@
 */
 
 #include <stdio.h>
+#include <stdlib.h>
 #include <stddef.h>
+#include "ast.h"
+#include "unused.h"
+#include "tree.h"
 #include "env.h"
+#include "utils.h"
 
 int loop_sh(env_t *env, char *line)
 {
-    line = strclean(line);
-    bonus();
-    parser();
-    run_ast();
-    free_ast();
+    tree_t *ast = NULL;
+
+    line = str_clear(line);
+    ast = parser(line);
+    run_ast(ast, env);
+    clean_ast(ast);
+    return (0);
 }
 
 int run_sh(char *env[])
@@ -30,12 +37,15 @@ int run_sh(char *env[])
         return (-1);
     }
     while (getline(&line, &size, stdin) != EOF) {
+        replace_char(line, '\n', '\0');
         return_value = loop_sh(my_env, line);
     }
+    free(line);
+    free_env(my_env);
     return (return_value);
 }
 
-int main(int ac, char **av, char *env[])
+int main(UNUSED int ac, UNUSED char **av, char *env[])
 {
     int return_value = 0;
 

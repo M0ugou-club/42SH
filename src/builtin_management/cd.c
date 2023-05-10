@@ -9,6 +9,7 @@
 #include <stdbool.h>
 #include <unistd.h>
 #include <string.h>
+#include <stdlib.h>
 #include "env_utils.h"
 
 static const int BUFFER_SIZE = 512;
@@ -32,53 +33,57 @@ static bool is_directory(const char *path)
     return true;
 }
 
-static void cd_home(env_t *env, char *actual_cwd, char *old_cwd)
+static int cd_home(env_t *env, char *old_cwd)
 {
     char *home = NULL;
 
     home = my_getenv(env, "HOME");
     if (!home) {
-        my_putstr_error("cd: No home directory.\n");
-        return (env);
+        write(2, "cd: No home directory.\n", 24);
+        return (1);
     }
     build_setenv_command(env, "OLDPWD", old_cwd);
     build_setenv_command(env, "PWD", home);
     if (chdir(home) < 0) {
-        return;
+        return (-1);
     }
     free(home);
+    return (0);
 }
 
-static void cd_back(env_t *env, char *actual_cwd, char *old_cwd)
+static int cd_back(env_t *env, char *actual_cwd, char *old_cwd)
 {
     char *back = NULL;
 
     back = my_getenv(env, "OLDPWD");
     if (back == NULL) {
-        return;
+        return -1;
     }
     if (chdir(back) < 0) {
-        return;
+        return -1;
     }
     build_setenv_command(env, "OLDPWD", old_cwd);
     build_setenv_command(env, "PWD", getcwd(actual_cwd, 1024));
     free(back);
+    return (0);
 }
 
 
 static int manage_cd(env_t *env, char **command_array, char *actual_cwd,
 char *old_cwd)
 {
-    if (command_array[1] == NULL || strcmp("~", command_array[1])) {
-        cd_home(env, actual_cwd, old_cwd);
-        return -1;
+    int return_value = 0;
+
+    if (command_array[1] == NULL || strcmp(command_array[1], "~") == 0) {
+        return_value = cd_home(env, old_cwd);
+        return return_value;
     }
-    if (command_array[1][0]) {
-        cd_back(env, actual_cwd, old_cwd);
-        return -1;
+    if (strcmp(command_array[1], "-") == 0) {
+        return_value = cd_back(env, actual_cwd, old_cwd);
+        return return_value;
     }
     if (is_directory(command_array[1]) == false)
-        return -1;
+        return 1;
     if (chdir(command_array[1]) < 0)
         return -1;
     build_setenv_command(env, "OLDPWD", old_cwd);
@@ -92,13 +97,11 @@ int cd(env_t *env, char **command_array)
     char *old_cwd = NULL;
     int return_value = 0;
 
-    actual_cwd = malloc(sizeof(char) * BUFFER_SIZE);
-    old_cwd = malloc(sizeof(char) * BUFFER_SIZE);
-    if (actual_cwd == NULL || old_cwd == NULL)
-        return;
     old_cwd = getcwd(old_cwd, BUFFER_SIZE);
     return_value =  manage_cd(env, command_array, actual_cwd, old_cwd);
-    free(actual_cwd);
-    free(old_cwd);
+    if (actual_cwd != NULL)
+        free(actual_cwd);
+    if (old_cwd != NULL)
+        free(old_cwd);
     return (return_value);
 }

@@ -6,13 +6,11 @@
 ##
 
 SRC	=	src/create_tree.c \
-		src/print_tree.c \
-		src/clean_tree.c \
-		AST/create_obj.c
+		src/clean_tree.c
 
 OBJ = $(SRC:.c=.o)
 
-NAME = tree.a
+NAME = libtree.a
 
 CFLAGS = -W -Wall -Wextra -I./includes
 

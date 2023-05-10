@@ -16,16 +16,18 @@
 
     char *create_new_line(char *var, char *value);
 
-    void add_line_in_env(const char *new_line, env_t *env);
+    void add_line_in_env(char *new_line, env_t *env);
 
-    void remove_line_in_env(const char *var, env_t *env);
+    env_t *remove_line_in_env(char *var, env_t *env);
 
     int get_tab_len(char **tab);
 
-    void my_setenv(env_t *env, char **command_array);
+    int my_setenv(env_t *env, char **command_array);
 
     char *my_getenv(env_t *env, char *to_find);
 
-    void build_setenv_command(char **env, char *var, char *str);
+    void build_setenv_command(env_t *env, char *var, char *str);
+
+    int print_env(env_t *env, char **command_array);
 
 #endif /* !ENV_UTILS_H_ */

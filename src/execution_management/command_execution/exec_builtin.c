@@ -10,23 +10,26 @@
 #include "builtin.h"
 #include "env.h"
 
-static const builtin_t all_builtin[] = {{"cd", NULL},
-{"env", NULL},
-{"setenv", NULL},
-{"unsetenv", NULL},
+static const builtin_t all_builtin[] = {{"cd", &cd},
+{"env", &print_env},
+{"setenv", &my_setenv},
+{"unsetenv", &my_unsetenv},
 {"exit", NULL},
 {"echo", NULL},
 {NULL, NULL}};
 
 int exec_builtin(env_t *env, char **command_array)
 {
+    int return_value = 0;
+
     if (command_array == NULL || command_array[COMMAND_INDEX] == NULL) {
         return (-1);
     }
     for (int i = 0; all_builtin[i].builtin != NULL; i++) {
-        if (strcmp(all_builtin[i].builtin, command_array[COMMAND_INDEX])) {
-            all_builtin[i].action(env, command_array);
-            return (0);
+        if (strcmp(all_builtin[i].builtin, command_array[COMMAND_INDEX]) == 0
+            && all_builtin[i].action != NULL) {
+            return_value = all_builtin[i].action(env, command_array);
+            return (return_value);
         }
     }
     return (-1);
