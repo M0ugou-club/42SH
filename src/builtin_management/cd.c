@@ -54,17 +54,23 @@ static int cd_home(env_t *env, char *old_cwd)
 static int cd_back(env_t *env, char *actual_cwd, char *old_cwd)
 {
     char *back = NULL;
+    char *pwd = NULL;
 
     back = my_getenv(env, "OLDPWD");
+
     if (back == NULL) {
         return -1;
     }
     if (chdir(back) < 0) {
         return -1;
     }
+    pwd = getcwd(actual_cwd, 1024);
+    if (pwd == NULL)
+        return -1;
     build_setenv_command(env, "OLDPWD", old_cwd);
-    build_setenv_command(env, "PWD", getcwd(actual_cwd, 1024));
+    build_setenv_command(env, "PWD", pwd);
     free(back);
+    free(pwd);
     return (0);
 }
 
@@ -72,6 +78,7 @@ static int manage_cd(env_t *env, char **command_array, char *actual_cwd,
 char *old_cwd)
 {
     int return_value = 0;
+    char *pwd = NULL;
 
     if (command_array[1] == NULL || strcmp(command_array[1], "~") == 0) {
         return_value = cd_home(env, old_cwd);
@@ -85,8 +92,12 @@ char *old_cwd)
         return 1;
     if (chdir(command_array[1]) < 0)
         return -1;
+    pwd = getcwd(actual_cwd, 1024);
+    if (pwd == NULL)
+        return -1;
     build_setenv_command(env, "OLDPWD", old_cwd);
-    build_setenv_command(env, "PWD", getcwd(actual_cwd, 1024));
+    build_setenv_command(env, "PWD", pwd);
+    free(pwd);
     return (0);
 }
 
