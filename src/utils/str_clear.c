@@ -36,9 +36,13 @@ char *str_clear(char *buff)
     int j = 0;
     int k = 0;
 
+    if (buff == NULL)
+        return (NULL);
     buff = remove_tab(buff);
     k = get_start_buff(buff);
     new_buff = malloc(sizeof(char) * (strlen(buff) + 1));
+    if (new_buff == NULL)
+        return (NULL);
     memset(new_buff, '\0', strlen(buff) + 1);
     for (int i = k; buff[i] != '\0'; i++) {
         if ((buff[i] != ' ') || (buff[i + 1] != ' ' && buff[i + 1] != '\0')) {
