@@ -31,4 +31,8 @@
     char *get_str_from_part(char *line, int middle_index, int index_to_skip,
         char *operator);
 
+    /* Functionnnal function*/
+    int print_path_prompt(void);
+    int run_sh(char *env[]);
+
 #endif /* !SH_H_ */
