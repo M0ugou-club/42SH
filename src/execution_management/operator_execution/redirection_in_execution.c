@@ -61,12 +61,12 @@ int exec_double_in(env_t *env, tree_t *ast)
     int pfd[2];
     int return_value = 0;
 
-    if (ast->right_tree != NULL) {
+    if (ast->right_tree != NULL)
         obj_right = ast->right_tree->component;
-    }
     if (pipe(pfd) == -1)
         return (-1);
-    stop_str = str_clear(obj_right->data);
+    if (obj_right != NULL)
+        stop_str = str_clear(obj_right->data);
     loop_double_in(stop_str, pfd);
     close(pfd[1]);
     return_value = exec_in(ast, pfd[0], env);
@@ -82,10 +82,10 @@ int exec_simple_in(env_t *env, tree_t *ast)
     int file_fd = 0;
     int return_value = 0;
 
-    if (ast->right_tree != NULL) {
+    if (ast->right_tree != NULL)
         obj_right = ast->right_tree->component;
-    }
-    file_name = str_clear(obj_right->data);
+    if (obj_right != NULL)
+        file_name = str_clear(obj_right->data);
     if (file_name != NULL) {
         file_fd = open(file_name, O_RDONLY);
     }
