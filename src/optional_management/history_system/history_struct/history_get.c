@@ -6,8 +6,19 @@
 */
 
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "history.h"
+
+hist_t *history_get_start(hist_t *history)
+{
+    hist_t *tmp = history_copy(history);
+
+    if (!tmp)
+        return (NULL);
+    for (; tmp->prev; tmp = tmp->prev);
+    return (tmp);
+}
 
 hist_t *history_get_end(hist_t *history)
 {
