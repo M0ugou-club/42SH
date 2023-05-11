@@ -6,6 +6,7 @@
 */
 
 #include <stdlib.h>
+#include <unistd.h>
 
 #include "history.h"
 
@@ -13,7 +14,7 @@ hist_t *history_init(void)
 {
     hist_t *new = malloc(sizeof(hist_t));
     new->command = NULL;
-    new->next = NULL;
-    new->prev = NULL;
+    new->next = malloc(sizeof(hist_t));
+    new->prev = malloc(sizeof(hist_t));
     return (new);
 }
