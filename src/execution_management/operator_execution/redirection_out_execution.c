@@ -25,7 +25,8 @@ static int get_out_file_fd(char *file, int clear)
     return (fd);
 }
 
-static int exec_out(tree_t *ast, int file_fd, env_t *env, to_free_t *memory_struct)
+static int exec_out(tree_t *ast, int file_fd, env_t *env,
+to_free_t *memory_struct)
 {
     int save_out = 0;
 

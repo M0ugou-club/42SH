@@ -69,9 +69,8 @@ int run_sh(char *env[])
     size_t size = 0;
 
     my_env = get_env_list(env);
-    if (my_env == NULL) {
+    if (my_env == NULL)
         return (-1);
-    }
     path_checker(my_env);
     print_path_prompt();
     while (getline(&line, &size, stdin) != EOF) {
@@ -79,9 +78,8 @@ int run_sh(char *env[])
         return_value = loop_sh(my_env, line);
         print_path_prompt();
     }
-    if (line != NULL) {
+    if (line != NULL)
         free(line);
-    }
     free_env(my_env);
     return (return_value);
 }

@@ -17,7 +17,7 @@ int update_return_value(int new_return_value, bool is_exit)
     static int return_value = 0;
 
     if (is_exit) {
-        return(return_value);
+        return (return_value);
     } else {
         return_value = new_return_value;
     }

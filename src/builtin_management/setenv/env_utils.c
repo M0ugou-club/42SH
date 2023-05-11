@@ -22,7 +22,7 @@ char *get_var_complete(const char *var)
     memset(copy, '\0', strlen(var) + 2);
     strcpy(copy, var);
     strcat(copy, "=");
-    return(copy);
+    return (copy);
 }
 
 env_t *find_var_in_env(env_t *env, const char *var)
