@@ -7,6 +7,7 @@
 
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 
 #include "history.h"
 
@@ -14,7 +15,7 @@ hist_short_t hist_short_set_type(const char *command)
 {
     char *tmp = strdup(command + 1);
 
-    if (atoi(tmp) == 0) {
+    if (atoi(tmp) == 0 && strncmp(tmp, "!", 1) != 0) {
         return (NUMBER);
     } else if (strncmp(tmp, "!", 1) == 0) {
         return (PREVIOUS);
