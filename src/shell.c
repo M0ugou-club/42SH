@@ -16,6 +16,7 @@
 #include "tree.h"
 #include "env.h"
 #include "env_utils.h"
+#include "history.h"
 #include "utils.h"
 #include "to_free.h"
 
@@ -48,6 +49,7 @@ int loop_sh(env_t *env, char *line)
     int return_value = 0;
 
     copy = str_clear(line);
+    history_filler(shell_history, &line)
     if (copy != NULL) {
         ast = parser(copy);
         memory_struct = fill_info(ast, line, copy);
@@ -57,6 +59,7 @@ int loop_sh(env_t *env, char *line)
         clean_ast(ast);
         free(copy);
         free(memory_struct);
+        history_free(shell_history);
     }
     return (return_value);
 }
