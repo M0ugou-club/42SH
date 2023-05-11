@@ -11,12 +11,13 @@
     #include "env.h"
     #include "ast.h"
     #include "tree.h"
+    #include "to_free.h"
 
     #define INDEX_REDIRECT 4
 
     typedef struct operator_s {
         char *op;
-        int (*action) (env_t *env, tree_t *ast);
+        int (*action) (env_t *env, tree_t *ast, to_free_t *memory_struct);
         data_type_t type;
     } operator_t;
 

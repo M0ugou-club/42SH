@@ -6,10 +6,11 @@
 */
 
 #include <stddef.h>
+#include <unistd.h>
 #include "ast.h"
 #include "tree.h"
 
-int error_in_and_or(tree_t *ast, object_t *obj)
+int error_in_and_or(tree_t *ast)
 {
     if (ast->left_tree == NULL || ast->right_tree == NULL) {
         write(2, "Invalid null command.\n", 22);
@@ -18,7 +19,7 @@ int error_in_and_or(tree_t *ast, object_t *obj)
     return (0);
 }
 
-int error_in_redirect(tree_t *ast, object_t *obj)
+int error_in_redirect(tree_t *ast)
 {
     object_t *left_obj = NULL;
 
@@ -28,7 +29,7 @@ int error_in_redirect(tree_t *ast, object_t *obj)
     }
     left_obj = ast->left_tree->component;
     if (left_obj != NULL) {
-        if (left_obj->type < COMMAND && left_obj >= PIPE) {
+        if (left_obj->type < COMMAND && left_obj->type >= PIPE) {
             write(2, "Ambiguous input redirect.\n", 27);
             return (-1);
         }
@@ -36,7 +37,7 @@ int error_in_redirect(tree_t *ast, object_t *obj)
     return (0);
 }
 
-int error_in_pipe(tree_t *ast, object_t *obj)
+int error_in_pipe(tree_t *ast)
 {
     object_t *left_obj = NULL;
 
@@ -59,13 +60,13 @@ int get_error(tree_t *ast, object_t *obj)
     int return_value = 0;
 
     if (obj->type == PIPE) {
-        return_value =error_in_pipe(ast, obj);
+        return_value = error_in_pipe(ast);
     }
     if (obj->type == OR && obj->type == AND) {
-        return_value = error_in_and_or(ast, obj);
+        return_value = error_in_and_or(ast);
     }
     if (obj->type >= DOUBLE_IN && obj->type <= SIMPLE_OUT) {
-        return_value = error_in_redirect(ast, obj);
+        return_value = error_in_redirect(ast);
     }
     return (return_value);
 }

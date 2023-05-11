@@ -41,8 +41,10 @@ int print_path_prompt(void)
         path_prompt = get_path();
         if (path_prompt == NULL)
             return (84);
+        write(1, "[", 1);
         write(1, path_prompt, strlen(path_prompt));
-        write(1, ":", 1);
+        write(1, "]", 1);
+        write(1, " > ", 3);
         free(path_prompt);
     }
     return (0);

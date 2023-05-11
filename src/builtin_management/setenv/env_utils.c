@@ -11,15 +11,18 @@
 #include <string.h>
 #include "env.h"
 
-char *get_var_complete(char *var)
+char *get_var_complete(const char *var)
 {
     char *copy = NULL;
 
     copy = malloc(sizeof(char) * (strlen(var) + 2));
+    if (copy == NULL) {
+        return (NULL);
+    }
     memset(copy, '\0', strlen(var) + 2);
     strcpy(copy, var);
     strcat(copy, "=");
-    return(copy);
+    return (copy);
 }
 
 env_t *find_var_in_env(env_t *env, const char *var)
