@@ -12,6 +12,19 @@
 #include "env.h"
 #include "env_utils.h"
 
+int is_num(char *str)
+{
+    if (str == NULL) {
+        return (1);
+    }
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (str[i] < '0' || str[i] > '9') {
+            return (1);
+        }
+    }
+    return (0);
+}
+
 int update_return_value(int new_return_value, bool is_exit)
 {
     static int return_value = 0;
@@ -37,7 +50,7 @@ int my_exit_builtin(env_t *env, char **command_array)
     }
     return_value = update_return_value(0, true);
     if (command_array[1] != NULL) {
-        if (!isdigit(command_array[1])) {
+        if (is_num(command_array[1]) == 1) {
             write(2, "exit: Expression Syntax.\n", 25);
             return (1);
         }
