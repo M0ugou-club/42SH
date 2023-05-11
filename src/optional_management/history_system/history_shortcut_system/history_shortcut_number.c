@@ -14,5 +14,5 @@ void history_shortcut_number(hist_t *history, char **command)
 {
     int nb = atoi(*command + 1);
 
-    *command = history_get_command(history, nb);
+    *command = (char *)history_get_command(history, nb);
 }
