@@ -6,6 +6,7 @@
 */
 
 #include <string.h>
+#include <stdio.h>
 
 #include "history.h"
 
@@ -18,8 +19,8 @@ void history_filler(hist_t *history, char **command)
     if (type != NONE) {
         history_shortcut_handler(history, command, type);
     }
-    history->command = strdup(*command);
-    history->next = history_init();
-    history->next->prev = history;
+    history_set_command(history, *command);
+    history_set_next(history, NULL);
+    history_set_prev(history->next->prev, history);
     history = history->next;
 }
