@@ -16,8 +16,13 @@ hist_t *history_copy(hist_t *history)
     hist_t *new = history_init();
 
     for (hist_t *tmp = history; tmp; tmp = tmp->next) {
-        new->command = strdup(tmp->command);
-        new->next = history_init();
+        if (tmp->command) {
+            history_set_command(new, strdup(tmp->command));
+        } else {
+            history_set_command(new, NULL);
+        }
+        history_set_next(new, history_init());
+        history_set_prev(new->next->prev, new);
         new = new->next;
     }
     return (new);
