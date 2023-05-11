@@ -5,10 +5,14 @@
 ** history_builtin
 */
 
+#include <stddef.h>
+
 #include "env.h"
 #include "history.h"
 
-int history(env_t *env, char **command_array)
+hist_t *shell_history = NULL;
+
+int my_history(env_t *env, char **command_array)
 {
     (void) env;
     (void) command_array;

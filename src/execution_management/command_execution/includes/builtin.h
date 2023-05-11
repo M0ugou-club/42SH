@@ -22,7 +22,7 @@
     int print_env(env_t *env, UNUSED char **command_array);
     int my_unsetenv(env_t *env, char **command_array);
     int my_echo(env_t *env , char **command_array);
-    int history(env_t *env, char **command_array);
+    int my_history(env_t *env, char **command_array);
     int my_exit_builtin(env_t *env, char **command_array);
 
 #endif /* !BUILTIN_H_ */
