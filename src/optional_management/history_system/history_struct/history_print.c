@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "history.h"
 
@@ -44,7 +45,7 @@ int history_print(hist_t *history)
         return (84);
     }
 
-    for (int i = 0; tmp; i++) {
+    for (int i = 0; tmp && tmp->command; i++) {
         print_index(i);
         write(1, "\t", 1);
         write(1, tmp->command, strlen(tmp->command));
