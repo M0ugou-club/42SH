@@ -34,4 +34,6 @@
 
     int update_return_value(int new_return_value, bool is_exit);
 
+    bool is_directory(const char *path);
+
 #endif /* !ENV_UTILS_H_ */
