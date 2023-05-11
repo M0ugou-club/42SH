@@ -14,8 +14,9 @@
 #include "env.h"
 #include "utils.h"
 #include "ast.h"
+#include "to_free.h"
 
-static int exec_in(tree_t *ast, int fd, env_t *env)
+static int exec_in(tree_t *ast, int fd, env_t *env, to_free_t *memory_struct)
 {
     int return_value = -1;
     int save_in = 0;
@@ -23,7 +24,7 @@ static int exec_in(tree_t *ast, int fd, env_t *env)
     save_in = dup(STDIN_FILENO);
     dup2(fd, STDIN_FILENO);
     if (ast->left_tree != NULL) {
-        return_value = run_ast(ast->left_tree, env);
+        return_value = run_ast(ast->left_tree, env, memory_struct);
     }
     dup2(save_in, STDIN_FILENO);
     clean_ast(ast->left_tree);
@@ -54,38 +55,38 @@ static int loop_double_in(char *stop_str, int pfd[2])
     return (0);
 }
 
-int exec_double_in(env_t *env, tree_t *ast)
+int exec_double_in(env_t *env, tree_t *ast, to_free_t *memory_struct)
 {
     object_t *obj_right = NULL;
     char *stop_str = NULL;
     int pfd[2];
     int return_value = 0;
 
-    if (ast->right_tree != NULL) {
+    if (ast->right_tree != NULL)
         obj_right = ast->right_tree->component;
-    }
     if (pipe(pfd) == -1)
         return (-1);
-    stop_str = str_clear(obj_right->data);
+    if (obj_right != NULL)
+        stop_str = str_clear(obj_right->data);
     loop_double_in(stop_str, pfd);
     close(pfd[1]);
-    return_value = exec_in(ast, pfd[0], env);
+    return_value = exec_in(ast, pfd[0], env, memory_struct);
     free(stop_str);
     close(pfd[0]);
     return (return_value);
 }
 
-int exec_simple_in(env_t *env, tree_t *ast)
+int exec_simple_in(env_t *env, tree_t *ast, to_free_t *memory_struct)
 {
     object_t *obj_right = NULL;
     char *file_name = NULL;
     int file_fd = 0;
     int return_value = 0;
 
-    if (ast->right_tree != NULL) {
+    if (ast->right_tree != NULL)
         obj_right = ast->right_tree->component;
-    }
-    file_name = str_clear(obj_right->data);
+    if (obj_right != NULL)
+        file_name = str_clear(obj_right->data);
     if (file_name != NULL) {
         file_fd = open(file_name, O_RDONLY);
     }
@@ -93,7 +94,7 @@ int exec_simple_in(env_t *env, tree_t *ast)
         free(file_name);
         return (-1);
     }
-    return_value = exec_in(ast, file_fd, env);
+    return_value = exec_in(ast, file_fd, env, memory_struct);
     free(file_name);
     close(file_fd);
     return (return_value);

@@ -8,7 +8,9 @@
 #ifndef ENV_UTILS_H_
     #define ENV_UTILS_H_
 
+    #include <stdbool.h>
     #include "env.h"
+    #include "unused.h"
 
     int get_tab_len(char **tab);
 
@@ -28,6 +30,10 @@
 
     void build_setenv_command(env_t *env, char *var, char *str);
 
-    int print_env(env_t *env, char **command_array);
+    int print_env(env_t *env, UNUSED char **command_array);
+
+    int update_return_value(int new_return_value, bool is_exit);
+
+    bool is_directory(const char *path);
 
 #endif /* !ENV_UTILS_H_ */

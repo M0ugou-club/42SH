@@ -68,8 +68,8 @@ char **str_to_word_array(char *str, char *delim)
     nb_word = count_nb_word(str, delim[0]);
     tok = strtok(copy, delim);
     tab = malloc(sizeof(char *) * (nb_word + 1));
-    tab = mem_array_set(tab, NULL, nb_word + 1);
     if (tab != NULL) {
+        tab = mem_array_set(tab, NULL, nb_word + 1);
         for (int i = 0; i < nb_word && tok != NULL; i++) {
             tab[i] = copy_part(tok);
             tok = strtok(NULL, delim);

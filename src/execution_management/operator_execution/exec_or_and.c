@@ -8,17 +8,18 @@
 #include <stddef.h>
 #include "ast.h"
 #include "env.h"
+#include "to_free.h"
 
-int exec_or(env_t *env, tree_t *ast)
+int exec_or(env_t *env, tree_t *ast, to_free_t *memory_struct)
 {
     int return_value = 0;
 
     if (ast->left_tree != NULL) {
-        return_value = run_ast(ast->left_tree, env);
+        return_value = run_ast(ast->left_tree, env, memory_struct);
     }
     if (return_value != 0) {
         if (ast->right_tree != NULL) {
-            run_ast(ast->right_tree, env);
+            run_ast(ast->right_tree, env, memory_struct);
         }
     }
     clean_ast(ast->left_tree);
@@ -28,16 +29,16 @@ int exec_or(env_t *env, tree_t *ast)
     return (return_value);
 }
 
-int exec_and(env_t *env, tree_t *ast)
+int exec_and(env_t *env, tree_t *ast, to_free_t *memory_struct)
 {
     int return_value = 0;
 
     if (ast->left_tree != NULL) {
-        return_value = run_ast(ast->left_tree, env);
+        return_value = run_ast(ast->left_tree, env, memory_struct);
     }
     if (return_value == 0) {
         if (ast->right_tree != NULL) {
-            run_ast(ast->right_tree, env);
+            run_ast(ast->right_tree, env, memory_struct);
         }
     }
     clean_ast(ast->left_tree);

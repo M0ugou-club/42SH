@@ -7,7 +7,8 @@
 
 AST = ./src/ast/clean_ast.c \
 	  ./src/ast/create_obj.c \
-	  ./src/ast/run_ast.c
+	  ./src/ast/run_ast.c \
+	  ./src/ast/ast_error.c
 
 ENV = ./src/env_management/free_env.c \
 	  ./src/env_management/switch_env_array.c
@@ -26,7 +27,9 @@ BUILTIN = \
 	./src/builtin_management/setenv/remove_env.c \
 	./src/builtin_management/cd.c \
 	./src/builtin_management/env.c \
-	./src/builtin_management/echo.c
+	./src/builtin_management/my_exit.c \
+	./src/builtin_management/echo.c \
+	./src/builtin_management/error_cd.c
 
 EXECUTION_OPERATOR = \
 	./src/execution_management/operator_execution/exec_or_and.c \
@@ -41,9 +44,12 @@ UTILS = ./src/utils/replace_char.c \
 		./src/utils/str_to_word_array.c \
 		./src/utils/str_clear.c \
 		./src/utils/free_tab.c \
-		./src/utils/get_tab_len.c
+		./src/utils/get_tab_len.c \
+		./src/utils/struct_free_utils.c
 
-MAIN = ./src/shell.c
+MAIN = ./src/shell.c \
+	   ./src/path_prompt.c \
+	   ./src/main.c
 
 SRC = $(ENV) $(EXECUTION_COMMAND) $(EXECUTION_OPERATOR) $(PARSER) $(UTILS) \
 	  $(MAIN) $(AST) $(BUILTIN)

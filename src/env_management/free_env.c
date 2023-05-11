@@ -10,6 +10,9 @@
 
 int free_env(env_t *env)
 {
+    if (env == NULL) {
+        return (0);
+    }
     if (env->next != NULL) {
         free_env(env->next);
     }

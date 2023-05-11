@@ -63,7 +63,7 @@ static tree_t *get_operator(char *line, operator_t operator, int j)
     tree_t *tree = NULL;
 
     if (strncmp(&line[j], operator.op, strlen(operator.op)) == 0) {
-        line_left = strndup(line, j - 1);
+        line_left = strndup(line, j);
         line_right = strdup(&line[j + strlen(operator.op)]);
         tree = get_new_node(operator, operator.op);
         if (tree == NULL || line_left == NULL || line_right == NULL) {

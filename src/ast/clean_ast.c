@@ -17,13 +17,13 @@ static void free_obj(object_t *obj)
 
 void clean_ast(tree_t *tree)
 {
-    if (!tree)
+    if (tree == NULL)
         return;
-    if (tree->left_tree)
-        clean_tree(tree->left_tree);
-    if (tree->right_tree)
-        clean_tree(tree->right_tree);
-    if (tree->component) {
+    if (tree->left_tree != NULL)
+        clean_ast(tree->left_tree);
+    if (tree->right_tree != NULL)
+        clean_ast(tree->right_tree);
+    if (tree->component != NULL) {
         free_obj(tree->component);
         free(tree->component);
     }

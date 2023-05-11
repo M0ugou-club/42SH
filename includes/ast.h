@@ -10,6 +10,7 @@
 
     #include "env.h"
     #include "tree.h"
+    #include "to_free.h"
 
     typedef enum data_type_e {
         SEMI_COL,
@@ -25,14 +26,15 @@
 
     typedef struct object_s {
         data_type_t type;
-        int (*action) (env_t *env, tree_t *ast);
+        int (*action) (env_t *env, tree_t *ast, to_free_t *memory_struct);
         void *data;
     } object_t;
 
     tree_t *parser(char *line);
     void clean_ast(tree_t *tree);
-    int run_ast(tree_t *ast, env_t *env);
-    tree_t *create_obj(int (*action) (env_t *env, tree_t *ast), void *data,
-        data_type_t type);
+    int run_ast(tree_t *ast, env_t *env, to_free_t *memory_struct);
+    tree_t *create_obj(int (*action) (env_t *env, tree_t *ast,
+        to_free_t *memory_struct), void *data, data_type_t type);
+    int get_ast_error(tree_t *ast);
 
 #endif /* !AST_H_ */
