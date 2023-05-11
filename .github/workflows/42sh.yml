@@ -5,8 +5,8 @@ on:
       - main
 
 env:
-  SOURCE_REPO: "git@github.com:M0ugou-club/my_rpg.git" #Insert source url of the git source repo
-  DEST_REPO: "git@github.com:EpitechPromo2027/B-MUL-200-TLS-2-1-myrpg-alberic.flour-de-saegher.git" #Insert Destination url of the git dest repo
+  SOURCE_REPO: "git@github.com:M0ugou-club/42SH.git" #Insert source url of the git source repo
+  DEST_REPO: "git@github.com:EpitechPromo2027/B-PSU-200-TLS-2-1-42sh-matthias.soual.git" #Insert Destination url of the git dest rep
 
 jobs:
   check_repo:
