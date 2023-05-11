@@ -21,5 +21,5 @@ void history_shortcut_previous(hist_t *history, char **command)
             break;
         }
     }
-    *command = strdup(history_get_command(history, placement));
+    *command = strdup(history_get_command(tmp_hist, placement));
 }
