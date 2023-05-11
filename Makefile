@@ -19,6 +19,22 @@ EXECUTION_COMMAND = \
 	./src/execution_management/command_execution/exec_command.c \
 	./src/execution_management/command_execution/exec_intern.c
 
+HISTORY = \
+	./src/optional_management/history_system/history_shortcut_system/history_shortcut_finder.c \
+	./src/optional_management/history_system/history_shortcut_system/history_shortcut_handler.c \
+	./src/optional_management/history_system/history_shortcut_system/history_shortcut_number.c \
+	./src/optional_management/history_system/history_shortcut_system/history_shortcut_previous.c \
+	./src/optional_management/history_system/history_shortcut_system/history_shortcut_string.c \
+	./src/optional_management/history_system/history_shortcut_system/history_shortcut_typer.c \
+	./src/optional_management/history_system/history_struct/history_copy.c \
+	./src/optional_management/history_system/history_struct/history_filler.c \
+	./src/optional_management/history_system/history_struct/history_free.c \
+	./src/optional_management/history_system/history_struct/history_set.c \
+	./src/optional_management/history_system/history_struct/history_get.c \
+	./src/optional_management/history_system/history_struct/history_init.c \
+	./src/optional_management/history_system/history_struct/history_print.c \
+	./src/optional_management/history_system/history_builtin.c \
+
 BUILTIN = \
 	./src/builtin_management/setenv/env_utils.c \
 	./src/builtin_management/setenv/env_utils2.c \
@@ -52,14 +68,15 @@ MAIN = ./src/shell.c \
 	   ./src/main.c
 
 SRC = $(ENV) $(EXECUTION_COMMAND) $(EXECUTION_OPERATOR) $(PARSER) $(UTILS) \
-	  $(MAIN) $(AST) $(BUILTIN)
+	  $(MAIN) $(AST) $(BUILTIN) $(HISTORY)
 
 OBJ = $(SRC:.c=.o)
 
 NAME = 42sh
 
 CFLAGS = 	-W -Wall -Wextra -Iincludes -ILIB/binary_tree/includes \
-	-Isrc/execution_management/command_execution/includes
+	-Isrc/execution_management/command_execution/includes \
+	-Isrc/optional_management/history_system/includes \
 
 LDFLAGS = 	-L ./LIB/ -ltree
 
