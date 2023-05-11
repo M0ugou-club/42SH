@@ -12,9 +12,10 @@
 #include "env_utils.h"
 
 static const char ERROR1[28] = "setenv: Too many arguments.\n";
-static const char ERROR2[48] = "setenv: Variable name must begin with a letter.\n";
-static const char ERROR3[61] = "setenv: Variable name must contain alphanumeric \
-characters.\n";
+static const char ERROR2[48] = "setenv: Variable name must begin with\
+a letter.\n";
+static const char ERROR3[61] = "setenv: Variable name must contain\
+alphanumeric characters.\n";
 static const int FIRST_ARG = 1;
 static const int SEC_ARG = 2;
 
