@@ -9,7 +9,7 @@
     #define HISTORY_H
 
     typedef struct hist_s {
-        const char *command;
+        char *command;
         struct hist_s *next, *prev;
     } hist_t;
 
@@ -25,7 +25,12 @@
 
     const char *history_get_command(hist_t *history, int index);
     hist_t *history_get_end(hist_t *history);
+    hist_t *history_get_start(hist_t *history);
     int history_get_size(hist_t *history);
+
+    void history_set_command(hist_t *history, char *command);
+    void history_set_next(hist_t *history, hist_t *next);
+    void history_set_prev(hist_t *history, hist_t *prev);
 
     hist_t *history_copy(hist_t *history);
 
